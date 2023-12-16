@@ -6,32 +6,40 @@ interface CaseType {
   items: {
     name: string;
     image: string;
+    price: number;
   }[];
+  price: number;
 }
 
 const cases: CaseType[] = [
   {
-    name: 'Basic Case',
+    name: 'Case 1',
     items: [
-      { name: 'Item 1', image: '/item1.png' },
-      { name: 'Item 2', image: '/item2.png' },
+      { name: 'Item 1', image: '/item1.png', price: 1 },
+      { name: 'Item 2', image: '/item2.png', price: 5 },
     ],
+    price: 2
+  },
+  {
+    name: 'Case 2',
+    items: [
+      { name: 'Item 1', image: '/item1.png' , price: 5 },
+      { name: 'Item 2', image: '/item2.png' , price: 10 },
+    ],
+    price: 7 
   },
 ];
 
 const Home: React.FC = () => {
   return (
-    <div>
-      <nav className={"navbar"}>
-        <h1>CS:GO Case Opening Simulator</h1>
-      </nav>
-      <div className={"container"}>
-        {cases.map((c, index) => (
-          <Case key={index} caseName={c.name} items={c.items} />
-        ))}
-      </div>
+  <>
+    <h1>Open CS cases</h1>
+    <div className={"container flex justify-around"}>
+      {cases.map((c, index) => (
+        <Case key={index} caseName={c.name} items={c.items} price={c.price} />
+      ))}
     </div>
-  );
+  </>);
 };
 
 export default Home;
