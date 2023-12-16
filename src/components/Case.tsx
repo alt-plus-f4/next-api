@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 
 interface Item {
   name: string;
@@ -53,7 +54,7 @@ const Case: React.FC<CaseProps> = ({ caseName, items }) => {
           <p>Congratulations! You got:</p>
           {openedItems.map((item, index) => (
             <div key={index}>
-              <img src={item.image} alt={item.name} />
+              <Image src={item.image} alt={item.name} />
               <p>{item.name}</p>
             </div>
           ))}

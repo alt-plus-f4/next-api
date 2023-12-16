@@ -15,10 +15,8 @@ const cases: CaseType[] = [
     items: [
       { name: 'Item 1', image: '/item1.png' },
       { name: 'Item 2', image: '/item2.png' },
-      // Add more items as needed
     ],
   },
-  // Add more cases as needed
 ];
 
 const Home: React.FC = () => {
