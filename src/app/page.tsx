@@ -1,5 +1,6 @@
 import React from 'react';
 import Case from '../components/Case';
+import { Button } from '@/components/Button';
 
 interface CaseType {
   name: string;

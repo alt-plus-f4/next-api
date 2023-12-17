@@ -51,7 +51,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
 
 			<DropdownMenuSeparator />
 
-			<DropdownMenuItem onSelect={(event) => {
+			<DropdownMenuItem onSelect={(event : any) => {
 				event.preventDefault();
 				signOut({
 					callbackUrl: `${window.location.origin}/sign-in`,
