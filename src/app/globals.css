@@ -62,3 +62,16 @@ body {
 .openButton:hover {
   background-color: #45a049;
 }
+.dropDownTrans{
+  background-color: rgba(128, 128, 128, 0.223);
+}
+
+.dropDownItem{
+  padding: 10px;
+  cursor: pointer;
+  border-top: 1px solid #ccc;
+  transition: 0.2s linear;
+}
+.dropDownItem:hover{
+  background-color: rgba(128, 128, 128, 0.549);
+}

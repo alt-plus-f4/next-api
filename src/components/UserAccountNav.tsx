@@ -23,12 +23,12 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
 				/>
 			</DropdownMenuTrigger>
 
-			<DropdownMenuContent className="bg-white" align="end">
-				<div className="flex items-center justify-start gap-2 pt-2">
+			<DropdownMenuContent className="dropDownTrans" align="end">
+				<div className="flex items-center justify-start gap-2 pt-3 px-3">
 					<div className="flex flex-col space-y-1 leading-none">
 						{user.name && <p className="font-medium">{user.name}</p>}
 						{user.email && (
-							<p className="w-[200px] truncate text-sm text-zinc-700">
+							<p className="w-[200px] truncate text-sm text-zinc-100">
 								{user.email}
 							</p>
 						)}
@@ -36,27 +36,22 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
 				</div>
 
 			<DropdownMenuSeparator /> 
-
-			<DropdownMenuItem asChild>
-				<Link href="/">Feed</Link>
+			
+			<DropdownMenuItem className="dropDownItem" asChild>
+				<Link href="/">My Profile</Link>
 			</DropdownMenuItem>
 
-			<DropdownMenuItem asChild>
-				<Link href="/r/create">Create</Link>
+			<DropdownMenuItem className="dropDownItem" asChild>
+				<Link href="/">Add Balance</Link>
 			</DropdownMenuItem>
 
-			<DropdownMenuItem asChild>
-				<Link href="/settings">Settings</Link>
-			</DropdownMenuItem>
-
-			<DropdownMenuSeparator />
 
 			<DropdownMenuItem onSelect={(event : any) => {
 				event.preventDefault();
 				signOut({
 					callbackUrl: `${window.location.origin}/sign-in`,
 				})
-			}} className="cursor-pointer">Sign Out</DropdownMenuItem>
+			}} className="dropDownItem">Sign Out</DropdownMenuItem>
 
 			</DropdownMenuContent>
 		</DropdownMenu>
