@@ -4,7 +4,6 @@ import { buttonVariants } from "./Button";
 import { getServerSession } from "next-auth/next";
 import UserAccountNav from "./UserAccountNav";
 import { options } from "../app/api/auth/[...nextauth]/options"
-import { toast } from "@/lib/use-toast";
 
 const Navbar = async () => {
 
