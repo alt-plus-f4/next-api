@@ -12,7 +12,7 @@ generator client {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(cuid())
   email     String   @unique
   name      String?
   image     String?
@@ -20,7 +20,7 @@ model User {
 }
 
 model Case {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(cuid())
   name      String
   price     Int
   image     String

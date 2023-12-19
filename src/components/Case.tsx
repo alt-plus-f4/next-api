@@ -6,11 +6,13 @@ import Link from 'next/link';
 interface Item {
   name: string;
   image: string;
+  price: number;
 }
 
 interface CaseProps {
   caseName: string;
   items: Item[];
+  price: number;
 }
 
 const Case: React.FC<CaseProps> = ({ caseName, items, price }) => {
@@ -33,6 +35,7 @@ const Case: React.FC<CaseProps> = ({ caseName, items, price }) => {
       }
 
       const data = await response.json();
+      console.log(data);
 
       if (data.success) {
         const randomIndex = Math.floor(Math.random() * items.length);
