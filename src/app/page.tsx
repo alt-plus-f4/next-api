@@ -28,15 +28,15 @@ const cases: CaseType[] = [
       { name: 'Item 1', image: '/item1.png' , price: 5 },
       { name: 'Item 2', image: '/item2.png' , price: 10 },
     ],
-    price: 7 
+    price: 7
   },
   {
-    name: 'Case 2',
+    name: 'Case 3',
     items: [
       { name: 'Item 1', image: '/item1.png' , price: 5 },
       { name: 'Item 2', image: '/item2.png' , price: 10 },
     ],
-    price: 5 
+    price: 5
   },
 ];
 
@@ -48,10 +48,6 @@ const Home: React.FC = () => {
       {cases.map((c, index) => (
         <Case key={index} caseName={c.name} items={c.items} price={c.price} />
       ))}
-    </div>
-
-    <div>
-      <ToastComponent type="success" title="Success" content="This is a successful message." />
     </div>
   </>);
 };
