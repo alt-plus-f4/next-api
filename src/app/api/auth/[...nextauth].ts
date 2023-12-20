@@ -5,6 +5,7 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 export default NextAuth({
+  debug: true,
   providers: [
     Providers.GitHub({
       clientId: process.env.GITHUB_ID,
@@ -19,13 +20,19 @@ callbacks: {
     },
     async signIn(params) {
         const { email, name, image } = params.profile as Profile;
-        
-        await prisma.user.upsert({
-            where: { email: email },
-            update: { email: email ?? '', name: name ?? '', image: image ?? '' },
-            create: { email: email ?? '', name: name ?? '', image: image ?? '' }
-        })
-        return true
-    }
-}
+
+        try{
+          await prisma.user.upsert({
+              where: { email: email },
+              update: { email: email ?? '', name: name ?? '', image: image ?? '' },
+              create: { email: email ?? '', name: name ?? '', image: image ?? '' }
+          })
+          return true
+        }
+        catch(e){
+          console.log(e)
+          return false
+        }
+      }
+  }
 })
