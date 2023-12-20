@@ -50,9 +50,9 @@ const Home: React.FC = () => {
       ))}
     </div>
 
-    <div>
+    {/* <div>
       <ToastComponent type="success" title="Success" content="This is a successful message." />
-    </div>
+    </div> */}
   </>);
 };
 
