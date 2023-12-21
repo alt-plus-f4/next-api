@@ -3,7 +3,7 @@ import { Icons } from "./Icons";
 import { buttonVariants } from "./Button";
 import { getServerSession } from "next-auth/next";
 import UserAccountNav from "./UserAccountNav";
-import Profile from "./Profile";
+import SignIn from "./SignIn";
 
 const Navbar = async () => {
 
@@ -20,10 +20,8 @@ const Navbar = async () => {
           {/** User BALANCE HERE */}
 
           {session?.user ? (
-
             <UserAccountNav user={session.user}/>
-
-          ): (<Profile />)}
+          ): (<SignIn />)}
 
         </div>
       </div>
