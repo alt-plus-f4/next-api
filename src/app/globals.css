@@ -24,10 +24,34 @@ body {
 }
 
 .case {
-  border: 1px solid #ccc;
+  background-color: #ffffff13;
+  border-radius: 10px;
   padding: 20px;
-  margin: 10px;
+  margin: 15px;
   text-align: center;
+  transition: 0.2s linear;
+}
+.case:hover{
+  padding: 22px;
+  background-color: #ffffff2f;
+  transition: 0.2s linear;
+}
+.case h2{
+  font-size: large;
+}
+.case p{
+  margin-top: 15px;
+  background-color: rgba(0, 0, 0, 0.138);
+  padding: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+  border-radius: 12px;
+  color: #4af1b8;
+  transition: 0.2s linear;
+}
+.case p:hover{
+  background-color: rgba(0, 0, 0, 0.438);
+  transition: 0.2s linear;
 }
 .nav-col{
   background-color: var(--nav-col);

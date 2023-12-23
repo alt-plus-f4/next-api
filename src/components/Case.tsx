@@ -10,12 +10,13 @@ interface Item {
 }
 
 interface CaseProps {
+  id: number;
   caseName: string;
   items: Item[];
   price: number;
 }
 
-const Case: React.FC<CaseProps> = ({ caseName, items, price }) => {
+const Case: React.FC<CaseProps> = ({ id, caseName, items, price }) => {
   const [openedItems, setOpenedItems] = useState<Item[]>([]);
 
   const openCase = async () => {
@@ -50,26 +51,13 @@ const Case: React.FC<CaseProps> = ({ caseName, items, price }) => {
   };
 
   return (
-    <div className={"flex flex-col items-center"}>
-      <h2 className='my-2 text-md font-medium'>{caseName}</h2>
-      {/* {openedItems.length > 0 ? (
-        <div>
-          <p>Congratulations! You got:</p>
-          {openedItems.map((item, index) => (
-            <div key={index}>
-              <Image src={item.image} alt={item.name} />
-              <p>{item.name}</p>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <button className={"openButton"} onClick={openCase}>
-          Open Case
-        </button>
-      )} */}
-      <Link href='/api/open' onClick={openCase} className='text-md font-bold text-green-600 px-8 py-4 bg-gray-300'>{price}</Link>
-
-    </div>
+    <Link href={`/case/${id}`}>
+      <div className={"flex flex-col items-center case"}>
+        <Image alt="CasePic" src="/onecase.webp" width={300} height={200} />
+        <h2>{caseName}</h2>
+        <p>${price.toFixed(2)}</p>
+      </div>
+    </Link>
   );
 };
 
