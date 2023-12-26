@@ -23,6 +23,27 @@ body {
   background: linear-gradient(90deg, rgba(64,26,74,1) 0%, rgba(2,0,36,1) 50%, rgba(65,20,77,1) 100%); 
 }
 
+.profile-corner{
+  display: flex;
+  justify-content: flex-end;
+}
+.profile-balance-link{
+  margin-right: 20px;
+  margin-top: 4px;
+  color: #45d34a;
+  font-weight: 500;
+  background-color: rgba(183, 183, 183, 0.371);
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 2px;
+  border-radius: 8px;
+  transition: 0.2s linear;
+}
+.profile-balance-link:hover{
+  background-color: rgba(183, 183, 183, 0.038);
+  transition: 0.2s linear;
+}
+
 .case {
   background-color: #ffffff13;
   border-radius: 10px;

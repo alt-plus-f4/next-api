@@ -38,18 +38,18 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
 			<DropdownMenuSeparator /> 
 			
 			<DropdownMenuItem className="dropDownItem" asChild>
-				<Link href="/">My Profile</Link>
+				<Link href="/profile">My Profile</Link>
 			</DropdownMenuItem>
 
 			<DropdownMenuItem className="dropDownItem" asChild>
-				<Link href="/">Add Balance</Link>
+				<Link href="/balance">Add Balance</Link>
 			</DropdownMenuItem>
 
 
 			<DropdownMenuItem onSelect={(event : any) => {
 				event.preventDefault();
 				signOut({
-					callbackUrl: `${window.location.origin}/sign-in`,
+					callbackUrl: `${window.location.origin}/`,
 				})
 			}} className="dropDownItem">Sign Out</DropdownMenuItem>
 

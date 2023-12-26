@@ -41,6 +41,15 @@ const cases: CaseType[] = [
     ],
     price: 5.00
   },
+  {
+    id: 4,
+    name: 'Four Case',
+    items: [
+      { name: 'Item 1', image: '/item1.png' , price: 5.00 },
+      { name: 'Item 2', image: '/item2.png' , price: 10.00 },
+    ],
+    price: 5.00
+  },
 ];
 
 const Home: React.FC = () => {

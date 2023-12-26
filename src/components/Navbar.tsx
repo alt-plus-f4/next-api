@@ -8,6 +8,7 @@ import SignIn from "./SignIn";
 const Navbar = async () => {
 
   const session = await getServerSession();
+  const balance = 10.00;
 
     return (
       <div className='fixed top-0 inset-x-0 h-fit z-[10] py-2 nav-col'>
@@ -20,7 +21,10 @@ const Navbar = async () => {
           {/** User BALANCE HERE */}
 
           {session?.user ? (
+          <div className="profile-corner">
+            <Link href="/balance" className="profile-balance-link">${balance.toFixed(2)}</Link>
             <UserAccountNav user={session.user}/>
+          </div>
           ): (<SignIn />)}
 
         </div>
