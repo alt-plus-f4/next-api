@@ -16,13 +16,21 @@ model User {
   email     String   @unique
   name      String?
   image     String?
-  balance   Int      @default(0)
+  balance   Float      @default(0)
 }
 
 model Case {
-  id        String   @id @default(cuid())
-  name      String
-  price     Int
-  image     String
-  winnings  String
+  id       Int      @id @default(autoincrement())
+  name     String
+  image    String
+  skins    Skin[]
+}
+
+model Skin {
+  id       Int      @id @default(autoincrement())
+  name     String
+  rarity   String
+  imageURL String
+  caseId   Int
+  case     Case     @relation(fields: [caseId], references: [id])
 }
