@@ -12,25 +12,35 @@ generator client {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
-  image     String?
-  balance   Float      @default(0)
+  id      String  @id @default(cuid())
+  email   String  @unique
+  name    String?
+  image   String?
+  balance Float   @default(0)
+}
+
+model History {
+  id     Int  @id @default(autoincrement())
+  case   Case @relation(fields: [caseId], references: [id])
+  skin   Skin @relation(fields: [skinId], references: [id])
+  caseId Int
+  skinId Int
 }
 
 model Case {
-  id       Int      @id @default(autoincrement())
-  name     String
-  image    String
-  skins    Skin[]
+  id      Int       @id @default(autoincrement())
+  name    String
+  image   String
+  skins   Skin[]
+  History History[]
 }
 
 model Skin {
-  id       Int      @id @default(autoincrement())
+  id       Int       @id @default(autoincrement())
   name     String
   rarity   String
   imageURL String
   caseId   Int
-  case     Case     @relation(fields: [caseId], references: [id])
+  case     Case      @relation(fields: [caseId], references: [id])
+  History  History[]
 }

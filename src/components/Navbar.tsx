@@ -25,7 +25,7 @@ const Navbar = async () => {
             <Link href="/balance" className="profile-balance-link">${balance.toFixed(2)}</Link>
             <UserAccountNav user={session.user}/>
           </div>
-          ): (<SignIn />)}
+          ): (<Link href='/sign-in' className='sign-in-btn'> Sign In</Link>)}
 
         </div>
       </div>
