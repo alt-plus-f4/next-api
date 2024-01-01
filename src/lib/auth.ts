@@ -2,7 +2,7 @@ import { User } from './user-model';
 import { db } from '@/lib/db'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { NextAuthOptions, getServerSession } from 'next-auth'
-// import GoogleProvider from 'next-auth/providers/google'
+import GoogleProvider from 'next-auth/providers/google'
 import GitHubProvider from 'next-auth/providers/github';
 
 export const authOptions: NextAuthOptions = {
@@ -14,10 +14,10 @@ export const authOptions: NextAuthOptions = {
     signIn: '/sign-in',
   },
   providers: [
-    // GoogleProvider({
-    //   clientId: process.env.GOOGLE_CLIENT_ID!,
-    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    // }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_ID!,
+      clientSecret: process.env.GOOGLE_SECRET!,
+    }),
     GitHubProvider({
       clientId: process.env.GITHUB_ID!,
       clientSecret: process.env.GITHUB_SECRET!,
@@ -43,19 +43,30 @@ export const authOptions: NextAuthOptions = {
           email: token.email || '',
         },
       })
-
-      if (!dbUser?.name) {
-        token.id = user!.id || ''
+    
+      if (user && !dbUser) {
+        token.id = user.id || ''
         return token
       }
-
-      return {
+    
+      if (dbUser && !dbUser.name) {
+        await db.user.update({
+          where: {
+            id: dbUser.id,
+          },
+          data: {
+            name: "Sukuna",
+          },
+        })
+      }
+    
+      return dbUser ? {
         id: dbUser.id,
         name: dbUser.name,
         email: dbUser.email,
         picture: dbUser.image,
         balance: dbUser.balance,
-      }
+      } : token
     },
     redirect() {
       return '/'

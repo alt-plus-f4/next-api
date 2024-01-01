@@ -1,13 +1,12 @@
 import Link from "next/link";
 import { Icons } from "./Icons";
-import { buttonVariants } from "./Button";
-import { getServerSession } from "next-auth/next";
+import { getAuthSession } from "@/lib/auth";
 import UserAccountNav from "./UserAccountNav";
-import SignIn from "./SignIn";
+import Balance from "./Balance";
 
 const Navbar = async () => {
 
-  const session = await getServerSession();
+  const session = await getAuthSession();
   const balance = 10.00;
 
     return (
@@ -18,14 +17,13 @@ const Navbar = async () => {
             <p className='hidden text-sm font-medium md:block'>Cirovbet</p>
           </Link>
 
-          {/** User BALANCE HERE */}
-
           {session?.user ? (
           <div className="profile-corner">
-            <Link href="/balance" className="profile-balance-link">${balance.toFixed(2)}</Link>
+            <Balance />
             <UserAccountNav user={session.user}/>
           </div>
-          ): (<Link href='/sign-in' className='sign-in-btn'> Sign In</Link>)}
+          ): 
+          (<Link href='/sign-in' className='sign-in-btn'> Sign In</Link>)}
 
         </div>
       </div>

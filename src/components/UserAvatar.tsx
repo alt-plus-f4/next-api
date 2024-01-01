@@ -19,6 +19,7 @@ const UserAvatar : FC<UserAvatarProps> = ({ user, ...props }) => {
             src={user.image}
             alt='profile picture'
             referrerPolicy='no-referrer'
+            sizes='100%'
           />
         </div>
       ) : (
