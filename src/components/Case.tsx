@@ -51,7 +51,7 @@ const Case: React.FC<CaseProps> = ({ id, caseName, items, price }) => {
   };
 
   return (
-    <Link href={`/case/${id}`} className='m-15'>
+    <Link href={`/case/${id}`} className='m-15 flex-basis-25'>
       <div className={"flex flex-col items-center case"}>
         <Image alt="CasePic" src="/onecase.webp" width={300} height={200} />
         <h2>{caseName}</h2>

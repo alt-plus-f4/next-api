@@ -8,6 +8,8 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
+        poligon:
+          'button-poligon',
         default:
           'bg-zinc-900 text-zinc-100 hover:bg-zinc-800',
         destructive: 'text-white hover:bg-red-600 dark:hover:bg-red-600',

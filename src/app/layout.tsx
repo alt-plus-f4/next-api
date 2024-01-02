@@ -8,7 +8,7 @@ import { Toaster } from "@/components/ui/toaster"
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'CirovBet - the winning place',
+  title: 'CirovBet - The Winning Place',
   description: 'You can lose only 100% of your money but you can win 1000%..',
 }
 
@@ -29,10 +29,7 @@ export default function RootLayout({
           <Navbar />
 
           {authModal}
-
-          <div className='container max-w-7xl mx-auto h-full pt-12 flex flex-col items-center'>
-            {children}
-          </div>
+          {children}
 
           <Toaster />
 
