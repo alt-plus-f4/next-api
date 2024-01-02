@@ -1,8 +1,8 @@
 'use client'
-import { useFetchBalance } from '@/lib/fetch-balance';
+import { useBalance } from '@/lib/use-balance';
 
 const BalancePage = () => {
-  const { balance, loading } = useFetchBalance();
+  const { balance, updateBalance } = useBalance();
   
   const handleAddFunds = async () => {
     try {
@@ -10,15 +10,8 @@ const BalancePage = () => {
       const amount = str ? parseFloat(str) : null;
 
       if (amount !== null) {
-        await fetch('/api/balance', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ balance: amount }),
-        });
+        await updateBalance(amount);
       }
-      window.location.reload();
     } catch (error) {
       console.error('Error adding funds:', error);
     }
@@ -27,7 +20,7 @@ const BalancePage = () => {
   return (
     <div>
       <h1>Balance Page</h1>
-      {loading ? (
+      {balance === null ? (
         <p>Loading...</p>
       ) : (
         <>

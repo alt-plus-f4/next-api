@@ -4,6 +4,7 @@ import './globals.css'
 import Navbar from '@/components/Navbar'
 import { cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/toaster"
+import { BalanceProvider } from '@/components/BalanceContext';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -26,6 +27,8 @@ export default function RootLayout({
     )}>
 
       <body className='min-h-screen pt-12 bg-slate-50 antialiased'>
+      <BalanceProvider>
+        
           <Navbar />
 
           {authModal}
@@ -33,6 +36,8 @@ export default function RootLayout({
 
           <Toaster />
 
+        </BalanceProvider>
+		      <div className='footer'> Gamble irresponsibly </div>
       </body>
     </html>
   )

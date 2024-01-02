@@ -2,6 +2,7 @@ import React from 'react';
 import Case from '../components/Case';
 import { Button } from '@/components/Button';
 import {Accordion,AccordionContent,AccordionItem,AccordionTrigger} from "@/components/ui/accordion"
+import Link from 'next/link';
 interface CaseType {
 	id: number;
 	name: string;
@@ -75,9 +76,9 @@ const Home: React.FC = () => {
 	<>
 		<div className='banner'>
 			<div className='banner-content'>
-				<Button variant={'poligon'}>Check Out</Button>
-				<Button variant={'poligon'}>Check Out</Button>
-				<Button variant={'poligon'}>Check Out</Button>
+				<Link href='/roulette'><Button variant={'poligon'}>Go to roulette</Button></Link>
+				<Link href='/event'><Button variant={'poligon'}>Check Out</Button></Link>
+				<Link href='/coinflip'><Button variant={'poligon'}>Coin Flip</Button></Link>
 			</div>
 		</div>
 
@@ -105,6 +106,7 @@ const Home: React.FC = () => {
 				</AccordionItem>
 			</Accordion>
 		</div>
+
 	</>);
 };
 
