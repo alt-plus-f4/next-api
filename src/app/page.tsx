@@ -1,7 +1,7 @@
 import React from 'react';
 import Case from '../components/Case';
 import { Button } from '@/components/Button';
-import {Accordion,AccordionContent,AccordionItem,AccordionTrigger} from "@/components/ui/accordion"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import Link from 'next/link';
 interface CaseType {
 	id: number;
@@ -77,12 +77,12 @@ const Home: React.FC = () => {
 		<div className='banner'>
 			<div className='banner-content'>
 				<Link href='/roulette'><Button variant={'poligon'}>Go to roulette</Button></Link>
-				<Link href='/event'><Button variant={'poligon'}>Check Out</Button></Link>
+				<Link href='/case/1'><Button variant={'poligon'}>Random Case</Button></Link>
 				<Link href='/coinflip'><Button variant={'poligon'}>Coin Flip</Button></Link>
 			</div>
 		</div>
 
-		<div className='container mx-auto h-full pt-12 flex flex-col items-center mw-90'>
+		<div className='container case-menus mx-auto h-full pt-12 flex flex-col items-center mw-90'>
 			<Accordion className='accordion' type="multiple" defaultValue={['item-1', 'item-2']}>
 				<AccordionItem value="item-1">
 					<AccordionTrigger className='accordion-title'>Recommended cases</AccordionTrigger>

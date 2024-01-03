@@ -20,10 +20,10 @@ const CoinFlip = () => {
         <div className='coinflip-page'>
             <div className='coinflip'>
                 <div className={`coin ${flipping ? 'flip' : 'Heads'} ${result}`} />
-                <Button isLoading={flipping} onClick={flipCoin}>Bet $5</Button>
-                <p>The result is: 
+                <Button variant={'poligon'} isLoading={flipping} onClick={flipCoin}>Bet $5</Button>
+                <h1>The result is: 
                 {result && <> {result}</>}
-                </p>
+                </h1>
             </div>
         </div>
     );

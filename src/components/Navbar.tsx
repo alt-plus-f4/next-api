@@ -7,7 +7,6 @@ import Balance from "./Balance";
 const Navbar = async () => {
 
   const session = await getAuthSession();
-  const balance = 10.00;
 
     return (
       <div className='fixed top-0 inset-x-0 h-fit z-[10] py-2 nav-col'>

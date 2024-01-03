@@ -1,11 +1,14 @@
 'use client'
 
+import { Button } from '@/components/Button';
 import { useState, useEffect, useRef } from 'react';
 
 const Roulette = () => {
     const [outcome, setOutcome] = useState('');
+    const [isSpinning, setIsSpinning] = useState(false);
     const wheelRef = useRef<HTMLDivElement | null>(null);
     const h1Ref = useRef<HTMLHeadingElement | null>(null);
+
 
     const initWheel = () => {
         let row = "";
@@ -73,6 +76,7 @@ const Roulette = () => {
                 if (h1Ref.current) {
                     h1Ref.current.innerHTML = `Outcome: ${landingNumber}`;
                 }
+                setIsSpinning(false);
             }
           }, 6 * 1000);
         }
@@ -83,6 +87,7 @@ const Roulette = () => {
     }, []);
 
     const handleClick = () => {
+        setIsSpinning(true);
         spinWheel();
     };
 
@@ -95,9 +100,9 @@ const Roulette = () => {
             </div>
 
             <div>
-                <button onClick={handleClick}>
+                <Button isLoading={isSpinning} variant={'poligon'} onClick={handleClick}>
                     Spin Wheel
-                </button>
+                </Button>
             </div>
         </div>
     );

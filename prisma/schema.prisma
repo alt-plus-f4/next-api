@@ -41,33 +41,39 @@ model User {
   name    String?
   image   String?
   balance Float     @default(0)
+  history History[]
+
   emailVerified DateTime? @map("email_verified")
   Account       Account[]
   Session       Session[]
 }
 
 model History {
-  id     Int  @id @default(autoincrement())
+  id     Int    @id @default(autoincrement())
+  userId String
+  itemId Int
   caseId Int
-  skinId Int
-  case   Case @relation(fields: [caseId], references: [id])
-  skin   Skin @relation(fields: [skinId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
+  case   Case   @relation(fields: [caseId], references: [id])
+  item   Item   @relation(fields: [itemId], references: [id])
 }
 
 model Case {
   id      Int       @id @default(autoincrement())
   name    String
   image   String
-  skins   Skin[]
-  History History[]
+  items   Item[]
+  history History[]
+  price   Float
 }
 
-model Skin {
+model Item {
   id       Int       @id @default(autoincrement())
   name     String
   rarity   String
+  price    Float
   imageURL String
   caseId   Int
   case     Case      @relation(fields: [caseId], references: [id])
-  History  History[]
+  history  History[]
 }

@@ -1,106 +1,106 @@
 'use client'
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react'; 
+import { fetchCase } from '@/lib/fetch-case';
+import { Button } from '@/components/Button';
 import Image from 'next/image';
-import { PrismaClient, Case as CaseType } from '@prisma/client';
+import { Skeleton } from "@/components/ui/skeleton"
 
-const prisma = new PrismaClient();
+interface PageProps {
+	params: {
+	  slug: string
+	}
+  }
 
-interface SkinType {
-  id: number;
-  name: string;
-  rarity: string;
-  imageURL: string;
+interface Case {
+	id: number;
+	name: string;
+	image: string;
+	items: any[];
+	history: any[];
+	price: number;
 }
 
-interface CaseOpenerProps {
-  cases: {
-    id: number;
-    name: string;
-    image: string;
-    skins: SkinType[];
-  }[];
-}
+const CaseOpener = ({params} : PageProps) => {
+	const { slug } = params;
+	const [caseData, setCaseData] = useState<Case[] | null>(null);
+	const [error, setError] = useState<string | null>(null);
+	const [isButtonClicked, setIsButtonClicked] = useState(false);
 
-const CaseOpener: React.FC<CaseOpenerProps> = ({ cases }) => {
-  const [openedCase, setOpenedCase] = useState<{
-    name: string;
-    image: string;
-    skins: SkinType[];
-  } | null>(null);
+	useEffect(() => {
+		if (slug) {
+			fetchCase(slug).then(caseData => {
+				if ('error' in caseData) {
+					setError(caseData.error);
+				} else {
+					setCaseData(caseData);
+				}
+			});
+		}
+	}, [slug]);
 
-  const openCase = () => {
-    // Ensure there are cases to open
-    if (cases.length === 0) {
-      console.error('No cases available.');
-      return;
-    }
+	let name, items, price, image, history;
 
-    // Choose a random case
-    const randomCase = cases[Math.floor(Math.random() * cases.length)];
+	if(caseData && caseData.length > 0){
+		name = caseData[0].name;
+		items = caseData[0].items;
+		price = caseData[0].price;
+		//! image = caseData[0].image; I HAVE TO FIX THIS 
+		history = caseData[0].history;
+	}
 
-    // Ensure the case has skins
-    if (!randomCase.skins || randomCase.skins.length === 0) {
-      console.error('The selected case has no skins.');
-      return;
-    }
+	if (error) {
+		window.location.href = '/404';
+	}
 
-    // Choose a random skin from the selected case
-    const randomSkin = randomCase.skins[Math.floor(Math.random() * randomCase.skins.length)];
+	return (
+		<>
+		<div className='case-page-container'>
+			{name ? <h1>{name}</h1> : <Skeleton className="w-[150px] h-[35px] bg-zinc-50 my-3" />}
+			<div className='case-page-items'>
+				<Image alt="CasePic" src={image || '/onecase.webp'} className={`image-transition ${isButtonClicked ? 'hide' : ''}`} width={250} height={150} />	
+				{/* {isButtonClicked ? 
+				<div className='case-page-items-animation'>
+					{items ? items.map((item, index) => (
+						<div key={index} className='flex flex-col items-center case'>
+							<Image alt="ItemPic" src={item.image} width={300} height={200} />
+							<h2>{item.name}</h2>
+							<p>${item.price.toFixed(2)}</p>
+						</div>
+					)) : <></>}
+				</div> : <></>} */}
+			</div>
+			<Button isLoading={isButtonClicked} onClick={() => {
+				setIsButtonClicked(true);
+				setTimeout(() => {
+					setIsButtonClicked(false);
+				}, 2000);
+			}} className='case-open-button' variant={'poligon'}>Open ${price?.toFixed(2)}</Button>
+			<h1 className='items-heading'>Items in case:</h1>
+		</div>
+		<div className='items-in-case'>
+			{/* TEST ITEM */}
+			<div className='item flex flex-col items-center case red-rarity'>
+				<Image alt="ItemPic" src='/onecase.webp' width={300} height={200} />
+				<h2>RED ITEM</h2>
+				<p>$50.00</p>
+			</div>
+			<div className='item flex flex-col items-center case blue-rarity'>
+				<Image alt="ItemPic" src='/onecase.webp' width={300} height={200} />
+				<h2>BLUE ITEM</h2>
+				<p>$5.00</p>
+			</div>
 
-    setOpenedCase({
-      name: randomSkin.name,
-      image: randomCase.image,
-      skins: randomCase.skins,
-    });
-  };
-
-  // Fetch data on component mount
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const casesData = await prisma.case.findMany({
-          include: {
-            skins: true,
-          },
-        });
-
-        // Set the cases state
-        // (This assumes you have a way to get initial data into the component)
-        // You might want to handle loading states, errors, etc.
-        // based on your application needs.
-        // Example:
-        setOpenedCase({
-          name: casesData[0].name,
-          image: casesData[0].image,
-          skins: casesData[0].skins,
-        });
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    // Call the fetchData function
-    fetchData();
-  }, []); // Empty dependency array means this effect runs once on mount
-
-  return (
-    <div>
-      <h1>CS:GO Case Opener</h1>
-      <button onClick={openCase}>Open Case</button>
-
-      {openedCase && (
-        <div>
-          <h2>You received:</h2>
-          {/* Use <Image /> component for optimized images */}
-          <Image src={openedCase.image} alt={openedCase.name} width={300} height={200} />
-          <p>{openedCase.name}</p>
-          <p>Skin Name: {openedCase.skins[0].name}</p>
-          <p>Skin Rarity: {openedCase.skins[0].rarity}</p>
-        </div>
-      )}
-    </div>
-  );
+			{items ? items.map((item, index) => (
+				<div key={index} className='flex flex-col items-center case'>
+					<Image alt="ItemPic" src={item.image} width={300} height={200} />
+					<h2>{item.name}</h2>
+					<p>${item.price.toFixed(2)}</p>
+				</div>
+			)) : <></>}
+		</div>
+		</>
+	);
 };
 
 export default CaseOpener;
