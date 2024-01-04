@@ -21,8 +21,7 @@ model Account {
   scope             String?
   id_token          String? @db.Text
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -36,23 +35,23 @@ model Session {
 }
 
 model User {
-  id      String    @id @default(cuid())
-  email   String    @unique
-  name    String?
-  image   String?
-  balance Float     @default(0)
-  history History[]
-
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  image         String?
+  balance       Float     @default(0)
   emailVerified DateTime? @map("email_verified")
+  role          Int       @default(0)
+  history       History[]
   Account       Account[]
   Session       Session[]
 }
 
 model History {
   id     Int    @id @default(autoincrement())
-  userId String
-  itemId Int
   caseId Int
+  itemId Int
+  userId String
   user   User   @relation(fields: [userId], references: [id])
   case   Case   @relation(fields: [caseId], references: [id])
   item   Item   @relation(fields: [itemId], references: [id])
@@ -62,9 +61,9 @@ model Case {
   id      Int       @id @default(autoincrement())
   name    String
   image   String
+  price   Float
   items   Item[]
   history History[]
-  price   Float
 }
 
 model Item {

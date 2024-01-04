@@ -26,7 +26,7 @@ export default function RootLayout({
     )}>
 
       <body className='min-h-screen pt-12 bg-slate-50 antialiased'>
-        
+
           <Navbar />
 
           {authModal}
