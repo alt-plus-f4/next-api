@@ -15,28 +15,31 @@ export async function GET() { // gets all cases
 }
 
 export async function POST(req : NextRequest) {
-	// const session = await getAuthSession();
+	const session = await getAuthSession();
 
-	// if (!session)
-	// 	return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+	if (!session)
+		return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+    const user = await db.user.findUnique({
+        where: { email: session?.user?.email || ''},
+        select: { role: true },
+    })
+
+    if(user?.role != 1)
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     
-    //! WILL ADD SERVER VERIFICATION BECAUSE OF SECURITY BUT FOR NOW
-    //! I WILL ADD THEM MANUALY 
-
-    //! LEFT TO ADD THE ITEMS
-
     const data = await req.json();
 
     if (Object.keys(data).length === 0) 
         return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
 
-    const { name, image, price } = data;
+    const { name, image, price, items } = data;
 
-    if (!name || !image || !price)
+    if (!name || !image || !price || !items)
         return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
 
     const newCase = await db.case.create({
-        data: { name, image, price },
+        data: { name, image, price, items },
     })
 
     return NextResponse.json({ case: newCase }, { status: 201 })
