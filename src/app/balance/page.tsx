@@ -1,9 +1,11 @@
 'use client'
-import { useBalance } from '@/lib/use-balance';
+
+import useStore from '@/lib/global-store';
 
 const BalancePage = () => {
-  const { balance, updateBalance } = useBalance();
-  
+  const balance = useStore((state: { balance: number } | unknown) => (state as { balance: number }).balance);
+  const updateBalance = useStore((state: unknown) => (state as { updateBalance: (amount: number) => Promise<void> }).updateBalance);
+
   const handleAddFunds = async () => {
     try {
       const str = prompt('Enter the amount to add:');
