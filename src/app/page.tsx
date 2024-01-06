@@ -76,7 +76,6 @@ const Home: React.FC = () => {
 	<>
 		<div className='banner'>
 			<div className='banner-content'>
-				<Link href='/roulette'><Button variant={'poligon'}>Go to roulette</Button></Link>
 				<Link href='/case/1'><Button variant={'poligon'}>Random Case</Button></Link>
 				<Link href='/coinflip'><Button variant={'poligon'}>Coin Flip</Button></Link>
 			</div>

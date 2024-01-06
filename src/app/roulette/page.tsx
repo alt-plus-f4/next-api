@@ -39,48 +39,45 @@ const Roulette = () => {
 
     const spinWheel = () => {
         const order = [0, 11, 5, 10, 6, 9, 7, 8, 1, 14, 2, 13, 3, 12, 4];
-        const position = 0;
-    
+        const position = Math.floor(Math.random() * order.length);
+      
         const rows = 12;
         const card = 75 + 3 * 2;
         let landingPosition = (rows * 15 * card) + (position * card);
-    
+      
         const randomize = Math.floor(Math.random() * 75) - (75/2);
-    
+      
         landingPosition = landingPosition + randomize;
-    
+      
+        const landingIndex = (position + Math.round(randomize / card)) % order.length;
+      
         const object = {
           x: Math.floor(Math.random() * 50) / 100,
           y: Math.floor(Math.random() * 20) / 100
         };
-    
+      
         if (wheelRef.current) {
           wheelRef.current.style.transitionTimingFunction = `cubic-bezier(0,${object.x},${object.y},1)`;
           wheelRef.current.style.transitionDuration = '6s';
           wheelRef.current.style.transform = `translate3d(-${landingPosition}px, 0px, 0px)`;
-    
+      
           setTimeout(() => {
             if(wheelRef.current){
-                wheelRef.current.style.transitionTimingFunction = '';
-                wheelRef.current.style.transitionDuration = '';
-                const resetTo = -(position * card + randomize);
-                wheelRef.current.style.transform = `translate3d(${resetTo}px, 0px, 0px)`;
-    
-                // Calculate the index of the card that the wheel lands on
-                const landingIndex = Math.round(landingPosition / card) % order.length;
-    
-                // Get the number from the order array
-                const landingNumber = order[landingIndex]; 
-    
-                // Update the h1Ref with the landing number
-                if (h1Ref.current) {
-                    h1Ref.current.innerHTML = `Outcome: ${landingNumber}`;
-                }
-                setIsSpinning(false);
+              wheelRef.current.style.transitionTimingFunction = '';
+              wheelRef.current.style.transitionDuration = '';
+              const resetTo = -(position * card + randomize);
+              wheelRef.current.style.transform = `translate3d(${resetTo}px, 0px, 0px)`;
+      
+              const landingNumber = order[landingIndex];
+      
+              if (h1Ref.current) {
+                h1Ref.current.innerHTML = `Outcome: ${landingNumber}  Color: ${landingNumber % 2 === 0 ? 'Black' : 'Red'}`;
+              }
+              setIsSpinning(false);
             }
-          }, 6 * 1000);
+          }, 6000);
         }
-    };
+      };
 
     useEffect(() => {
         initWheel();

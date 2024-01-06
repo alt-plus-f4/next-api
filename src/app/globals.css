@@ -4,6 +4,54 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --background: 224 71% 4%;
+    --foreground: 213 31% 91%;
+ 
+    --muted: 223 47% 11%;
+    --muted-foreground: 215.4 16.3% 56.9%;
+ 
+    --accent: 216 34% 17%;
+    --accent-foreground: 210 40% 98%;
+ 
+    --popover: 224 71% 4%;
+    --popover-foreground: 215 20.2% 65.1%;
+ 
+    --border: 216 34% 17%;
+    --input: 216 34% 17%;
+ 
+    --card: 224 71% 4%;
+    --card-foreground: 213 31% 91%;
+ 
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 1.2%;
+ 
+    --secondary: 222.2 47.4% 11.2%;
+    --secondary-foreground: 210 40% 98%;
+ 
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+ 
+    --success: 145 63% 31%;
+    --success-foreground: 210 40% 98%;
+
+    --ring: 216 34% 17%;
+ 
+    --radius: 0.5rem;
+  }
+}
+ 
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -20,9 +68,12 @@
 }
 
 body {display: flex; flex-direction: column; color: white;background: rgb(64,26,74);background: linear-gradient(90deg, rgba(64,26,74,1) 0%, rgba(2,0,36,1) 50%, rgba(65,20,77,1) 100%);}
+input::-webkit-outer-spin-button,input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0;}
+input[type=number] {-moz-appearance: textfield;}
 .m-15     {margin: 15px;}
 .popupcol {background: rgba(10, 7, 11, 0.853);}
 .mw-90    {max-width: 90%;}
+.success  {background-color: #2fd26e84; color: white;}
 .accordion{min-width: 100%;list-style: none; padding: 0; margin: 0;}
 .accordion-title{color: white; font-weight: 900; text-transform: uppercase;font-size: larger;}
 @media (max-width: 640px) {.xsm\:flex-wrap {flex-wrap: wrap;}}
@@ -280,51 +331,77 @@ body {display: flex; flex-direction: column; color: white;background: rgb(64,26,
 .card.red{background:#F95146;}
 .card.black{background:#2D3035;}
 .card.green{background:#00C74D;}
-.coinflip-page{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 250px;
-}
-.coinflip{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 50px;
-}
-.coin {
-  width: 250px;
-  height: 250px;
-  margin-bottom: 100px;
-  border-radius: 50%;
-  transition: transform 0.3s 
-      ease-in-out; 
-}
-.Heads {background-color: rgb(0, 128, 255);}
-.Tails {background-color: rgb(170, 10, 10);}
-.coin:hover { 
-  transform: scale(1.1); 
-  transition: transform 0.3s 
-      ease-in-out; 
-} 
-
-@keyframes spin { 
-  0% { 
-      transform: rotateY(0deg); 
-  } 
-  100% { 
-      transform: rotateY(360deg); 
-  } 
-} 
-
-.coin.flip { 
-  animation: spin 1s 
-      cubic-bezier(0.4, 2.5, 0.6, 0.5); 
-} 
-
 .red-rarity{background-color: #dc181877;}
 .red-rarity:hover{background-color: #dc1818a7;}
 .blue-rarity{background-color: #182fdc48;}
 .blue-rarity:hover{background-color: #311ec578;}
+
+.coin-container{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin: auto;
+  background-color: #5028a13a;
+  width: 65%;
+  padding: 50px;
+  box-shadow: 15px 30px 35px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  box-shadow: 0px 1px 150px black;
+}
+.coin-container input{
+  width: 45%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+  text-align: center;
+  background-color: #5028a13a;
+  box-shadow: 0px 5px 50px black;
+}
+.coin-container input:focus{outline: none;}
+.coin{
+  margin: 100px auto;
+  transform-style: preserve-3d;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+.coin-heads {transform: rotateX(0deg);}
+.coin-tails {transform: rotateX(180deg);}
+.coin img{width: 145px;}
+.heads,.tails{
+  position: absolute;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.tails{transform: rotateX(180deg);}
+@keyframes spin-tails{
+  0%{
+      transform: rotateX(0);
+  }
+  100%{
+      transform: rotateX(1980deg);
+  }
+}
+@keyframes spin-heads{
+  0%{
+      transform: rotateX(0);
+  }
+  100%{
+      transform: rotateX(2160deg);
+  }
+}
+.buttons{
+  display: flex;
+  justify-content: space-between;
+}
+.history{
+  display: flex;
+  overflow: hidden;
+}
