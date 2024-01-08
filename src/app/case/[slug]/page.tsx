@@ -39,13 +39,13 @@ const CaseOpener = ({params} : PageProps) => {
 		}
 	}, [slug]);
 
-	let name, items, price, image, history;
+	let name, items, price, image, history = [];
 
 	if(caseData && caseData.length > 0){
 		name = caseData[0].name;
 		items = caseData[0].items;
 		price = caseData[0].price;
-		//! image = caseData[0].image; I HAVE TO FIX THIS 
+		image = caseData[0].image;
 		history = caseData[0].history;
 	}
 
