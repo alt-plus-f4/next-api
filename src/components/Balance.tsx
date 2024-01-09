@@ -17,7 +17,7 @@ const Balance = () => {
             {balance === null ? (
                 <p className="profile-balance-link">Loading...</p>
             ) : (
-                <Link href="/balance" className="profile-balance-link">${balance.toFixed(2)}</Link>
+                <Link href="/balance" className="profile-balance-link">${balance.toFixed(2)} +</Link>
             )}
         </>
     );

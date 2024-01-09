@@ -1,5 +1,6 @@
 'use client'
 
+import { Button } from '@/components/Button';
 import useStore from '@/lib/global-store';
 
 const BalancePage = () => {
@@ -20,14 +21,13 @@ const BalancePage = () => {
   };
 
   return (
-    <div>
-      <h1>Balance Page</h1>
+    <div className='balance-page'>
+      <h1 className='my-5 text-3xl font-bold'>Balance Page</h1>
       {balance === null ? (
         <p>Loading...</p>
       ) : (
         <>
-          <p>Current Balance: ${balance}</p>
-          <button onClick={handleAddFunds}>Add $$$</button>
+          <Button variant={'outline'} onClick={handleAddFunds}>Add $$$</Button>
         </>
       )}
     </div>
