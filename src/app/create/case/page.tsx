@@ -57,19 +57,19 @@ function CreateCase() {
             <div className='case-create'>
                 <form onSubmit={handleSubmit}>
                     <label>
-                        Name:
+                        Name
                     </label>
                         <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
                     <label>
-                        Image:
+                        Image
                     </label>
                         <input type="text" value={image} onChange={(e) => setImage(e.target.value)} required />
                     <label>
-                        Price:
+                        Price
                     </label>
                         <input type="number" step="0.01" value={price} onChange={(e) => setPrice(e.target.value)} required />
                     <label>
-                        Items:
+                        Items
                     </label>
                         {allItems.map((item) => (
                         <div key={item.id} className={`item flex flex-col items-center case ${item.rarity === 1 ? 'blue' : item.rarity === 2 ? 'red' : 'gold'}-rarity`} onClick={() => handleItemClick(item)}>
