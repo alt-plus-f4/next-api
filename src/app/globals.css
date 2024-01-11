@@ -502,13 +502,15 @@ input:focus{outline: none;}
   width: 80%;
 }
 .item-create-image{
-  background-color: rgba(255, 255, 255, 0.514);
+  background-color: rgba(255, 255, 255, 0.13);
   border-radius: 8px;
   margin: 10px 10px;
   transition: 0.5s linear;
 }
+.item-create-image img {
+  transition: all 0.3s linear;
+}
 .item-create-image:hover{
-  background-color: rgba(255, 255, 255, 0.614);
-  width: 105%;
+  background-color: rgba(255, 255, 255, 0.39);
   transition: 0.5s linear;
 }

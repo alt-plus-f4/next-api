@@ -3,10 +3,28 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db'
 import { getAuthSession } from '@/lib/auth';
 
-export async function GET() {
-	const items = await db.item.findMany({
-		select: { name: true, rarity: true, price: true, imageURL: true },
-	})
+export async function GET(req : NextRequest) {
+    const data = await req.json();
+
+    let items;
+    if (Object.keys(data).length === 0) {
+        const [from, to] = data.fromto.split('-').map(Number);
+
+        items = await db.item.findMany({
+            select: { name: true, rarity: true, price: true, imageURL: true },
+            where: {
+                id: {
+                  gte: from,
+                  lte: to,
+                },
+            },
+        });
+    } 
+    else {
+        items = await db.item.findMany({
+            select: { name: true, rarity: true, price: true, imageURL: true },
+        });
+    }
 
 	if (!items || items.length === 0)
 		return NextResponse.json({ error: 'Item/s not found' }, { status: 404 })

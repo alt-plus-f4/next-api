@@ -3,12 +3,14 @@
 import { Button } from '@/components/Button';
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { useToast } from '@/components/ui/use-toast';
 
 function CreateItem() {
 	const [name, setName] = useState('');
 	const [rarity, setRarity] = useState(1);
 	const [price, setPrice] = useState('');
 	const [imageURL, setImageURL] = useState('');
+	const { toast } = useToast();
 
 	const handleRarityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setRarity(Number(event.target.value));
@@ -37,8 +39,16 @@ function CreateItem() {
 				throw new Error(`HTTP error! status: ${response.status}`);
 			}
 
-			const data = await response.json();
-			console.log(data);
+			toast({
+				variant: 'success',
+				title: "Successfull Item Creation",
+				description: "You have successfully created " + name + " with rarity " + rarity + " that costs " + price + "!",
+			}) 
+
+			setName('');
+			setRarity(Number(1));
+			setPrice('');
+			setImageURL('');
 		} catch (error) {
 			console.error(error);
 		}
@@ -67,28 +77,36 @@ function CreateItem() {
 					Image
 				</label> 
 				<div className='flex flex-row case-create-items-images'>
-					{rarity === 1 && (
-						<>
-							<div className='item-create-image'>
-								<Image src={'/blue-item.webp'} alt='Blue Item 1' width={300} height={300}/>
-							</div>
-							<div className='item-create-image'>
-								<Image src={'/blue-item-2.webp'} alt="Blue Item 2" width={300} height={300}/>
-							</div>
+				{rarity === 1 && (
+					<>
+							<button className='item-create-image' onClick={() => setImageURL('/blue-item.webp')}>
+							<Image src={'/blue-item.webp'} alt='Blue Item 1' width={imageURL === '/blue-item.webp' ? 500 : 300} height={300}/>
+							</button>
+							<button className='item-create-image' onClick={() => setImageURL('/blue-item-2.webp')}>
+							<Image src={'/blue-item-2.webp'} alt="Blue Item 2" width={imageURL === '/blue-item-2.webp' ? 500 : 300} height={300}/>
+							</button>
 						</>
-					)}
-					{rarity === 2 && (
+						)}
+						{rarity === 2 && (
 						<>
-							<Image src={'/dlore.webp'} alt="Image 3" width={300} height={300}/>
-							<Image src={'/wildlotus.webp'} alt="Image 4" width={300} height={300}/>
+							<button className='item-create-image' onClick={() => setImageURL('/dlore.webp')}>
+							<Image src={'/dlore.webp'} alt="Image 3" width={imageURL === '/dlore.webp' ? 500 : 300} height={300}/>
+							</button>
+							<button className='item-create-image' onClick={() => setImageURL('/wildlotus.webp')}>
+							<Image src={'/wildlotus.webp'} alt="Image 4" width={imageURL === '/wildlotus.webp' ? 500 : 300} height={300}/>
+							</button>
 						</>
-					)}
-					{rarity === 3 && (
+						)}
+						{rarity === 3 && (
 						<>
-							<Image src={'/bfklore.webp'} alt="BFK lore" width={300} height={300} />
-							<Image src={'/karalore.webp'} alt="KARA lore" width={300} height={300} />
+							<button className='item-create-image' onClick={() => setImageURL('/bfklore.webp')}>
+							<Image src={'/bfklore.webp'} alt="BFK lore" width={imageURL === '/bfklore.webp' ? 500 : 300} height={300} />
+							</button>
+							<button className='item-create-image' onClick={() => setImageURL('/karalore.webp')}>
+							<Image src={'/karalore.webp'} alt="KARA lore" width={imageURL === '/karalore.webp' ? 500 : 300} height={300} />
+							</button>
 						</>
-					)}
+						)}
 				</div>
 				<Button variant={'default'} type="submit">Create Item</Button>
 			</form>

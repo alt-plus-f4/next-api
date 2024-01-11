@@ -12,7 +12,7 @@ function CreateCase() {
     const [allItems, setAllItems] = useState<any[]>([]);
 
     useEffect(() => {
-        fetch('/api/items')
+        fetch('/api/item')
             .then((response) => response.json())
             .then((data) => setAllItems(data))
             .catch((error) => console.error(error));

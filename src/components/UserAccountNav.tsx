@@ -1,7 +1,6 @@
 'use client'
 
 import { User } from "next-auth";
-import { FC } from "react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuItem } from "./DropdownMenu";
 import UserAvatar from '@/components/UserAvatar'
 import Link from "next/link";
