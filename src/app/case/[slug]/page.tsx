@@ -23,12 +23,15 @@ interface Case {
 
 const CaseOpener = ({params} : PageProps) => {
 	const { slug } = params;
+
 	const [caseData, setCaseData] = useState<Case[] | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const [isButtonClicked, setIsButtonClicked] = useState(false);
 
 	useEffect(() => {
-		if (slug) {
+		if (slug && (isNaN(Number(slug)) || slug === "open")) {
+			window.location.href = '/404';
+		} else {
 			fetchCase(slug).then(caseData => {
 				if ('error' in caseData) {
 					setError(caseData.error);
