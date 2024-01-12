@@ -79,6 +79,7 @@ input[type="radio"]:checked {transition: linear 0.2s;background: #bbbbbb76;}
 .popupcol {background: rgba(10, 7, 11, 0.853);}
 .mw-90    {max-width: 90%;}
 .width-60 {width: 60%;}
+.width-35 {width: 35%;}
 .success  {background-color: #2fd26e84; color: white;}
 .accordion{min-width: 100%;list-style: none; padding: 0; margin: 0;}
 .accordion-title{color: white; font-weight: 900; text-transform: uppercase;font-size: larger;}
@@ -103,10 +104,11 @@ input[type="radio"]:checked {transition: linear 0.2s;background: #bbbbbb76;}
 .avatar-hover{transition: 0.3s linear;}
 .avatar-hover:hover {filter: brightness(1.3);transition: 0.3s linear;}
 .banner{
-  background-image: url('/main-page-event-banner-bg.webp');
+  background-image: url('/banner.webp');
   background-position: 50%;
   background-repeat: no-repeat;
   margin: 50px 50px;
+  border-radius: 12px;
   padding: 0 20px;
   max-width: 1920px;
   min-height: 460px;

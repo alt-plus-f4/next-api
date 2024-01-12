@@ -3,13 +3,28 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/Button';
 import Image from 'next/image';
+import {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/components/ui/pagination"
 
+  
 function CreateCase() {
     const [name, setName] = useState('');
     const [image, setImage] = useState('');
     const [allItems, setAllItems] = useState<any[]>([]);
     const [selectedImage, setSelectedImage] = useState('');
     const [selectedItems, setSelectedItems] = useState<any[]>([]);
+
+    const itemsPerPage = 4;
+    const [currentPage, setCurrentPage] = useState(1);
+    const totalPages = Math.ceil(allItems.length / itemsPerPage);
+    const currentItems = allItems.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
     const fetchItems = () => {
         fetch('/api/item')
@@ -21,7 +36,7 @@ function CreateCase() {
             })
             .then((data) => {
                 if (Array.isArray(data.items)) {
-                    setAllItems((prevItems) => [...prevItems, ...data.items]);
+                    setAllItems(data.items);
                 } else {
                     console.error('Data.items is not an array:', data.items);
                 }
@@ -82,7 +97,7 @@ function CreateCase() {
 
     return (
         <>
-            <div className='case-create overflow-y-auto justify-between'>
+            <div className='case-create overflow-hidden justify-between'>
                 <div className='width-60'>
                     <form onSubmit={handleSubmit}>
                         <label>
@@ -106,19 +121,29 @@ function CreateCase() {
                         <Button variant={'default'} type="submit">Create Case</Button>
                     </form>
                 </div>
-
-                <div className='overflow-y-auto flex flex-wrap w-4/12 mx-8'>
-                {allItems.map((item, index) => (
-                    <div
-                        key={index}
-                        className={`item flex flex-col items-center case ${item.rarity === 1 ? 'blue' : item.rarity === 2 ? 'red' : 'gold'}-rarity case-create-item ${selectedItems.includes(item.id) ? 'selected' : ''}`}
-                        onClick={() => handleItemClick(item)}
-                    >
-                        <Image alt={item.name} src={item.imageURL} width={300} height={200} />
-                        <h2>{item.name}</h2>
-                        <p>${item.price.toFixed(2)}</p>
+                <div className='flex flex-col width-35 justify-between overflow-hidden h-full'>
+                    <div className='flex flex-wrap'>
+                    {currentItems.map((item, index) => (
+                        <div
+                            key={index}
+                            className={`item flex flex-col items-center case ${item.rarity === 1 ? 'blue' : item.rarity === 2 ? 'red' : 'gold'}-rarity case-create-item ${selectedItems.includes(item.id) ? 'selected' : ''}`}
+                            onClick={() => handleItemClick(item)}
+                        >
+                            <Image alt={item.name} src={item.imageURL} width={300} height={200} />
+                            <h2>{item.name}</h2>
+                            <p>${item.price.toFixed(2)}</p>
+                        </div>
+                    ))}
                     </div>
-                ))}
+                    <Pagination style={{ listStyleType: 'none' } } className='cursor-pointer'>
+                        <PaginationPrevious  onClick={() => setCurrentPage((old) => Math.max(old - 1, 1))} />
+                            {Array.from({length: totalPages}, (_, i) => (
+                                <PaginationItem key={i}>
+                                    <PaginationLink onClick={() => setCurrentPage(i + 1)}>{i + 1}</PaginationLink>
+                                </PaginationItem>
+                            ))}
+                        <PaginationNext onClick={() => setCurrentPage((old) => Math.min(old + 1, totalPages))} />
+                    </Pagination>
                 </div>
             </div>
         </>

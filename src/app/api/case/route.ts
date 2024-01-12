@@ -1,10 +1,13 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db'
-import { getAuthSession } from '@/lib/auth';
+import { checkSessionAndRole } from '@/lib/role-check';
 
 export async function GET() { // gets all cases
-	const cases = await db.case.findMany({
+	const check = await checkSessionAndRole();
+    if (check) return NextResponse.json({ error: check.error }, { status: check.status });
+    
+    const cases = await db.case.findMany({
 		select: { name: true, image: true, price: true },
 	})
 
@@ -15,19 +18,9 @@ export async function GET() { // gets all cases
 }
 
 export async function POST(req : NextRequest) {
-	const session = await getAuthSession();
+	const check = await checkSessionAndRole();
+    if (check) return NextResponse.json({ error: check.error }, { status: check.status });
 
-	if (!session)
-		return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
-    const user = await db.user.findUnique({
-        where: { email: session?.user?.email || ''},
-        select: { role: true },
-    })
-
-    if(user?.role != 1)
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    
     const data = await req.json();
 
     if (Object.keys(data).length === 0) 
@@ -48,5 +41,57 @@ export async function POST(req : NextRequest) {
     })
 
     return NextResponse.json({ case: newCase }, { status: 201 })
+}
 
+export async function PUT(req: NextRequest) {
+    const check = await checkSessionAndRole();
+    if (check) return NextResponse.json({ error: check.error }, { status: check.status });
+    
+    const id = Number(req.nextUrl.searchParams.get('id'));
+
+    if (isNaN(id)) {
+        return NextResponse.json({ error: 'Invalid id parameter' }, { status: 400 });
+    }
+
+    const data = await req.json();
+
+    if (Object.keys(data).length === 0) 
+        return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
+
+    const { name, rarity, price, imageURL } = data;
+
+    if (!name || !rarity || !price || !imageURL)
+        return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
+
+    const updatedItem = await db.item.update({
+        where: { id },
+        data: { name, rarity, price, imageURL },
+    })
+
+    return NextResponse.json({ item: updatedItem }, { status: 200 })
+}
+
+export async function DELETE(req: NextRequest) {
+    const check = await checkSessionAndRole();
+    if (check) return NextResponse.json({ error: check.error }, { status: check.status });
+    
+    const id = Number(req.nextUrl.searchParams.get('id'));
+
+    if (isNaN(id)) {
+        return NextResponse.json({ error: 'Invalid id parameter' }, { status: 400 });
+    }
+
+    const item = await db.item.findUnique({
+        where: { id },
+    });
+
+    if (!item) {
+        return NextResponse.json({ error: 'Item not found' }, { status: 404 });
+    }
+
+    const deletedItem = await db.item.delete({
+        where: { id },
+    });
+
+    return NextResponse.json({ item: deletedItem }, { status: 200 })
 }

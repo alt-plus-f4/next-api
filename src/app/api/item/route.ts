@@ -1,7 +1,6 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db'
-import { getAuthSession } from '@/lib/auth';
+import { checkSessionAndRole } from '@/lib/role-check';
 
 export async function GET(req : NextRequest) {
     const from = Number(req.nextUrl.searchParams.get('from'));
@@ -39,19 +38,9 @@ export async function GET(req : NextRequest) {
 }
 
 export async function POST(req : NextRequest) {
-	const session = await getAuthSession();
+	const check = await checkSessionAndRole();
+    if (check) return NextResponse.json({ error: check.error }, { status: check.status });
 
-	if (!session)
-		return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
-    const user = await db.user.findUnique({
-        where: { email: session?.user?.email || ''},
-        select: { role: true },
-    })
-
-    if(user?.role != 1)
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    
     const data = await req.json();
 
     if (Object.keys(data).length === 0) 
@@ -71,6 +60,9 @@ export async function POST(req : NextRequest) {
 }
 
 export async function PUT(req : NextRequest) {
+    const check = await checkSessionAndRole();
+    if (check) return NextResponse.json({ error: check.error }, { status: check.status });
+    
     const id = Number(req.nextUrl.searchParams.get('id'));
 
     if (isNaN(id)) {
@@ -96,6 +88,9 @@ export async function PUT(req : NextRequest) {
 }
 
 export async function DELETE(req : NextRequest) {
+    const check = await checkSessionAndRole();
+    if (check) return NextResponse.json({ error: check.error }, { status: check.status });
+    
     const id = Number(req.nextUrl.searchParams.get('id'));
 
     if (isNaN(id)) {
