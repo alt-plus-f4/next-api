@@ -15,7 +15,7 @@ export async function GET(req : NextRequest) {
     try {
         if (from === 0 && to === 0) {
             items = await db.item.findMany({
-                select: {name: true, rarity: true, price: true, imageURL: true},
+                select: {id: true, name: true, rarity: true, price: true, imageURL: true},
             });
         } else {
             items = await db.item.findMany({

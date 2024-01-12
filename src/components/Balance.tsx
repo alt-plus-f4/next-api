@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import Link from "next/link";
 import useStore from '@/lib/global-store';
+import { Skeleton } from "@/components/ui/skeleton"
 
 const Balance = () => {
     const balance = useStore((state: unknown) => (state as { balance: number }).balance);
@@ -14,8 +15,8 @@ const Balance = () => {
 
     return (
         <>
-            {balance === null ? (
-                <p className="profile-balance-link">Loading...</p>
+            {!balance ? (
+                <Skeleton className="skeleton-balance" />
             ) : (
                 <Link href="/balance" className="profile-balance-link">${balance.toFixed(2)} +</Link>
             )}
