@@ -1,7 +1,11 @@
 import { db } from "@/lib/db";
+import { checkSessionAndRole } from "@/lib/role-check";
 import { NextResponse } from "next/server";
 
 export async function DELETE() {
+    const check = await checkSessionAndRole();
+    if (check) return NextResponse.json({ error: check.error }, { status: check.status });
+
     const deletedOdds  = await db.odds.deleteMany();
     const deletedItems = await db.item.deleteMany();
     const deletedCases = await db.case.deleteMany();

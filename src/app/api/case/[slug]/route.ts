@@ -6,7 +6,7 @@ export async function GET(req : NextRequest) {
 
     const cases = await db.case.findMany({
         where: { id: Number(id) },
-        select:{ name: true, image: true, price: true, items: true,  history: true},
+        select:{ id: true, name: true, image: true, price: true, items: true,  odds: true},
     })
 
     if (!cases || cases.length === 0)

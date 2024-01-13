@@ -4,11 +4,8 @@ import { db } from '@/lib/db'
 import { checkSessionAndRole } from '@/lib/role-check';
 
 export async function GET() { // gets all cases
-	const check = await checkSessionAndRole();
-    if (check) return NextResponse.json({ error: check.error }, { status: check.status });
-    
     const cases = await db.case.findMany({
-		select: { name: true, image: true, price: true, items: true, odds: true },
+		select: { id: true, name: true, image: true, price: true, items: true, odds: true },
 	})
 
 	if (!cases || cases.length === 0)
@@ -50,33 +47,38 @@ export async function POST(req : NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
-    const check = await checkSessionAndRole();
-    if (check) return NextResponse.json({ error: check.error }, { status: check.status });
+    // const check = await checkSessionAndRole();
+    // if (check) return NextResponse.json({ error: check.error }, { status: check.status });
     
     const id = Number(req.nextUrl.searchParams.get('id'));
 
-    if (isNaN(id)) {
+    if (isNaN(id))
         return NextResponse.json({ error: 'Invalid id parameter' }, { status: 400 });
-    }
 
     const data = await req.json();
 
     if (Object.keys(data).length === 0) 
         return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
 
-    const { name, rarity, price, imageURL } = data;
+    const { name, image, price, itemIds, odds } = data;
 
-    if (!name || !rarity || !price || !imageURL)
+    if (!name || !image || !price || !itemIds || !odds)
         return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
 
-    const updatedItem = await db.item.update({
+    const updatedCase = await db.case.update({
         where: { id },
-        data: { name, rarity, price, imageURL },
+        data: {
+            name, 
+            image, 
+            price,
+            items: {
+                connect: itemIds.map((id: string) => ({ id })),
+            },
+        },
     })
 
-    return NextResponse.json({ item: updatedItem }, { status: 200 })
+    return NextResponse.json({ case: updatedCase }, { status: 200 })
 }
-
 export async function DELETE(req: NextRequest) {
     const check = await checkSessionAndRole();
     if (check) return NextResponse.json({ error: check.error }, { status: check.status });

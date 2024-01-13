@@ -14,9 +14,10 @@ interface CaseProps {
   caseName: string;
   items: Item[];
   price: number;
+  image: string;
 }
 
-const Case: React.FC<CaseProps> = ({ id, caseName, items, price }) => {
+const Case: React.FC<CaseProps> = ({ id, caseName, items, price, image }) => {
   const [openedItems, setOpenedItems] = useState<Item[]>([]);
 
   const openCase = async () => {
@@ -53,7 +54,7 @@ const Case: React.FC<CaseProps> = ({ id, caseName, items, price }) => {
   return (
     <Link href={`/case/${id}`} className='m-15 flex-basis-25'>
       <div className={"flex flex-col items-center case"}>
-        <Image alt="CasePic" src="/onecase.webp" width={300} height={200} />
+        <Image alt="CasePic" src={image} width={300} height={200} />
         <h2>{caseName}</h2>
         <p>${price.toFixed(2)}</p>
       </div>

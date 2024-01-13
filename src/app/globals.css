@@ -167,9 +167,6 @@ input[type="radio"]:checked {transition: linear 0.2s;background: #bbbbbb76;}
   background-color: #ffffff2f;
   transition: 0.2s linear;
 }
-.case h2{
-  font-size: large;
-}
 .case p{
   margin-top: 15px;
   background-color: rgba(0, 0, 0, 0.138);
@@ -184,6 +181,9 @@ input[type="radio"]:checked {transition: linear 0.2s;background: #bbbbbb76;}
   background-color: rgba(0, 0, 0, 0.438);
   transition: 0.2s linear;
 }
+.case h2{
+  font-size: large;
+}
 .case-menus{
   margin-bottom: 50px;
 }
@@ -193,6 +193,9 @@ input[type="radio"]:checked {transition: linear 0.2s;background: #bbbbbb76;}
   justify-content: center;
   align-items: center;
   margin-top: 100px;
+}
+.case-page-items-animation{
+  display:none;
 }
 .case-page-container h1{
   font-size: 30px;
@@ -569,3 +572,8 @@ input[type="radio"]:checked {transition: linear 0.2s;background: #bbbbbb76;}
   border-radius: 8px;
 }
 .price{color:#00C74D}
+.percentage{
+  font-size: smaller;
+  float: right;
+  color: #ffffff;
+}
