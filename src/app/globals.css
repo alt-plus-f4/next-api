@@ -83,6 +83,7 @@ input[type="radio"]:checked {transition: linear 0.2s;background: #bbbbbb76;}
 .success  {background-color: #2fd26e84; color: white;}
 .accordion{min-width: 100%;list-style: none; padding: 0; margin: 0;}
 .accordion-title{color: white; font-weight: 900; text-transform: uppercase;font-size: larger;}
+.br-8     {border-radius: 8px;}
 @media (max-width: 640px) {.xsm\:flex-wrap {flex-wrap: wrap;}}
 .button-poligon {
   font-family: Montserrat;
@@ -228,7 +229,7 @@ input[type="radio"]:checked {transition: linear 0.2s;background: #bbbbbb76;}
   padding: 30px;
   border-radius: 16px;
 }
-.item{margin: 15px;}
+.item{margin: 15px; max-height: 220px;}
 .items-heading{margin-top: 150px;}
 .case-open-button{
   background-color: #7a1b97;
@@ -533,3 +534,38 @@ input[type="radio"]:checked {transition: linear 0.2s;background: #bbbbbb76;}
 .skeleton-case-image {width: 250px;height: 200px; margin: 10px; border-radius: 10px; background-color: rgba(116, 4, 136, 0.447);}
 .skeleton-color {background-color: rgba(116, 4, 136, 0.447);}
 .skeleton-balance {background-color: #2c973079; width: 100px; height: 24px; margin-top: 5px; margin-right: 25px;}
+.case-odds{
+  display: flex;
+  flex-direction: column;
+  margin: 0px 10px;
+  margin-bottom: 50px;
+  align-items: center;
+  background-color: #5712905a;
+  box-shadow: 0px 5px 50px black;
+  padding: 10px;
+  height: 250px;
+  border-radius: 8px;
+  transition: 0.5s linear;
+}
+.case-odds input{
+  width: 80%;
+  padding: 5px;
+  border: none;
+  border-radius: 5px;
+  margin: 10px;
+  margin-bottom: 15px;
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+  text-align: center;
+  background-color: #5712905a;
+}
+.total-price{
+  color: #00C74D;
+  background-color: #5712905a;
+  margin-bottom: 30px;
+  box-shadow: 0px 5px 50px black;
+  padding: 20px;
+  border-radius: 8px;
+}
+.price{color:#00C74D}

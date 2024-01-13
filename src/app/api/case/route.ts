@@ -8,7 +8,7 @@ export async function GET() { // gets all cases
     if (check) return NextResponse.json({ error: check.error }, { status: check.status });
     
     const cases = await db.case.findMany({
-		select: { name: true, image: true, price: true },
+		select: { name: true, image: true, price: true, items: true, odds: true },
 	})
 
 	if (!cases || cases.length === 0)
@@ -26,20 +26,26 @@ export async function POST(req : NextRequest) {
     if (Object.keys(data).length === 0) 
         return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
 
-    const { name, image, price, itemIds } = data;
+        const { name, image, price, itemIds, odds } = data;
 
-    if (!name || !image || !price || !itemIds)
+    if (!name || !image || !price || !itemIds || !odds)
         return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
-
+    
     const newCase = await db.case.create({
         data: {
             name, image, price,
             items: {
-                connect: itemIds.map((id: string) => ({ id })),
+                connect: itemIds.map((id: string, index: number) => ({ id })),
+            },
+            odds: {
+                create: itemIds.map((id: string, index: number) => ({
+                    itemId: id,
+                    Odds: odds[index],
+                })),
             },
         },
     })
-
+    
     return NextResponse.json({ case: newCase }, { status: 201 })
 }
 

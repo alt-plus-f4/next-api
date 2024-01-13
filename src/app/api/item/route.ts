@@ -52,11 +52,10 @@ export async function POST(req : NextRequest) {
         return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
 
     const newItem = await db.item.create({
-        data: { name, rarity, price, imageURL, caseId: 1 },
+        data: { name, rarity, price, imageURL },
     })
 
     return NextResponse.json({ item: newItem }, { status: 201 })
-
 }
 
 export async function PUT(req : NextRequest) {
