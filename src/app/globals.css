@@ -195,7 +195,27 @@ input[type="radio"]:checked {transition: linear 0.2s;background: #bbbbbb76;}
   margin-top: 100px;
 }
 .case-page-items-animation{
-  display:none;
+  position: absolute;
+  left: 0;
+  width: 60000px;
+  transform: translateX(0px);
+  transition: all 4s cubic-bezier(0.49, 0.23, 0.4, 0.98);
+  transition-delay: 1s;
+}
+.case-item-opening{
+  position: relative;
+  display: inline-block;
+  background-color: #ffffff13;
+  margin: 0px 5px;
+  border-radius: 3px;
+  width: 200px;
+  height: 180px;
+  padding: 20px;
+  text-align: center;
+}
+.spin-case{
+  transform: translateX(-3000px);
+  transition: all 4s cubic-bezier(0.49, 0.23, 0.4, 0.98);
 }
 .case-page-container h1{
   font-size: 30px;
@@ -216,12 +236,18 @@ input[type="radio"]:checked {transition: linear 0.2s;background: #bbbbbb76;}
   justify-content: center;
   align-items: center;
   margin-bottom: 50px;
-  transition: 0.5s linear;
+  position: relative;
 }
-.case-page-items:hover{
-  background: #6c16b1a8;
-  transition: 0.5s linear;
+.case-page-items.rotating::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: 100%;
+  width: 2px; /* Adjust as needed */
+  background-color: #ffffff; /* Adjust as needed */
 }
+
 .items-in-case{
   display: flex;
   justify-content: center;
@@ -349,6 +375,9 @@ input[type="radio"]:checked {transition: linear 0.2s;background: #bbbbbb76;}
 .blue-rarity:hover{background-color: #311ec578;}
 .gold-rarity{background-color: #fcdf0167;}
 .gold-rarity:hover{background-color: #a09e1dae;}
+.blue-rarity-box-shadow{box-shadow: inset 0px -41px 39px -26px rgba(34,34,230,0.64); border-bottom: 3px solid rgba(34,34,230,0.64)}
+.red-rarity-box-shadow{box-shadow: inset 0px -41px 39px -26px rgba(230, 34, 34, 0.64); border-bottom: 3px solid rgba(230, 34, 34, 0.64)}
+.gold-rarity-box-shadow{box-shadow: inset 0px -41px 39px -26px rgba(230, 230, 34, 0.64); border-bottom: 8px solid rgba(230, 230, 34, 0.64)}
 
 .coin-container{
   display: flex;
@@ -574,6 +603,7 @@ input[type="radio"]:checked {transition: linear 0.2s;background: #bbbbbb76;}
 .price{color:#00C74D}
 .percentage{
   font-size: smaller;
+  font-weight: bold;
   float: right;
   color: #ffffff;
 }

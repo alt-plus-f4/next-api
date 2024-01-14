@@ -37,6 +37,7 @@ const CaseOpener = ({params} : PageProps) => {
 	const [isButtonClicked, setIsButtonClicked] = useState(false);
 	const [itemsWithOdds, setItemsWithOdds] = useState<any[]>([]);
 	const [selectedItem, setSelectedItem] = useState(null);
+	const [animationStarted, setAnimationStarted] = useState(false);
 
 	useEffect(() => {
         fetchCase(slug).then(caseData => {
@@ -89,49 +90,46 @@ const CaseOpener = ({params} : PageProps) => {
 	
 		const data = await response.json();
 		setSelectedItem(data.item);
-		console.log('Selected Item:', data.item);
+	};
+
+	const generateAnimationItems = () => {
+		if (!itemsWithOdds) return <></>;
+		return Array(30).fill(null).map((_, index) => {
+			const item = itemsWithOdds[Math.floor(Math.random() * itemsWithOdds.length)];
+			return (
+				<div key={index} data-id={item.id} className={`case-item-opening ${item.rarity === 1 ? 'blue' : item.rarity === 2 ? 'red' : 'gold'}-rarity-box-shadow`}>
+					<Image alt="ItemPic" src={item.imageURL} width={180} height={150} />
+				</div>
+			);
+		});
 	};
 
 	return (
 		<>
 		<div className='case-page-container'>
 			{name ? <h1>{name}</h1> : <Skeleton className="w-[150px] h-[35px] my-3 skeleton-color" />}
-			<div className='case-page-items'>
+			<div className={`case-page-items ${isButtonClicked ? 'rotating' : ''}`}>
 				{image ?  
 				<Image alt="CasePic" src={image} className={`image-transition ${isButtonClicked ? 'hide' : ''}`} width={250} height={150} />
 				: <Skeleton className="skeleton-case-image" />}	
 
-				<div className='case-page-items-animation' style={{
-					transform: `translateX(${isButtonClicked ? '-100px' : '0'})`,
-					transition: 'transform 1s ease-out'
-				}}>
-					{itemsWithOdds.map((item, index) => (
-						<div key={index} className='flex flex-col items-center case'>
-							<Image alt="ItemPic" src={item.imageURL} width={300} height={200} />
-							<h2>{item.name}</h2>
-							<p>${item.price.toFixed(2)}</p>
-						</div>
-					))}
-				</div>
+			{isButtonClicked ? 
+			<div className={`case-page-items-animation ${animationStarted ? 'spin-case' : ''}`}>
+				{generateAnimationItems()}
+			</div> : <></>}
 
-				{/* {isButtonClicked ? 
-				<div className='case-page-items-animation'>
-					{items ? items.map((item, index) => (
-						<div key={index} className='flex flex-col items-center case'>
-							<Image alt="ItemPic" src={item.image} width={300} height={200} />
-							<h2>{item.name}</h2>
-							<p>${item.price.toFixed(2)}</p>
-						</div>
-					)) : <></>}
-				</div> : <></>} */}
 			</div>
 			<Button isLoading={isButtonClicked} onClick={() => {
-				setIsButtonClicked(true);
-				setTimeout(() => {
-					openCase();
-					setIsButtonClicked(false);
-				}, 1000);
-			}} className='case-open-button' variant={'poligon'}>Open ${price?.toFixed(2)}</Button>
+			setIsButtonClicked(true);
+			openCase();
+			setTimeout(() => {
+				setAnimationStarted(true);
+			}, 2000);
+			setTimeout(() => {
+				setIsButtonClicked(false);
+				setAnimationStarted(false);
+			}, 8000);
+		}} className='case-open-button' variant={'poligon'}>Open ${price?.toFixed(2)}</Button>
 			<h1 className='items-heading'>Items in case:</h1>
 		</div>
 		<div className='items-in-case flex-wrap'>
