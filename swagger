@@ -1,0 +1,475 @@
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: "CirovBet API"
+  description: "API documentation for the CirovBet application"
+
+servers:
+  - url: https://next-api-orcin-beta.vercel.app/api/
+
+paths:
+  /api/auth/[...nextauth]:
+    get:
+      summary: "NextAuth Authentication"
+      description: "NextAuth authentication route."
+      responses:
+        200:
+          description: "Successful authentication response"
+          content:
+            application/json:
+              example:
+                message: "Authentication successful"
+                user:
+                  id: 123
+                  username: "example_user"
+        401:
+          description: "Failed authentication response"
+          content:
+            application/json:
+              example:
+                error: "Authentication failed"
+                message: "Invalid credentials"
+
+  /api/balance:
+    get:
+      summary: "Get User Balance"
+      description: "Gets the balance of the current user session."
+      responses:
+        200:
+          description: "Successful GET balance response"
+          content:
+            application/json:
+              example:
+                balance: 100.50
+      post:
+        summary: "Update User Balance"
+        description: "Updates the balance of the current user (only server can do this request)."
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  balance:
+                    type: number
+        responses:
+          200:
+            description: "Successful POST update balance response"
+            content:
+              application/json:
+                example:
+                  message: "Balance updated successfully"
+
+  /api/case:
+    get:
+      summary: "Get All Cases"
+      description: "Returns all the cases from the database."
+      responses:
+        200:
+          description: "Successful GET cases response"
+          content:
+            application/json:
+              example:
+                - id: 1
+                  name: "Case 1"
+                  image: "case1.jpg"
+                  price: 10.0
+                  items: []
+                  odds: []
+                  history: []
+    post:
+      summary: "Create New Case"
+      description: "Creates a new case (requires admin role)."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewCase"
+      responses:
+        200:
+          description: "Successful POST case creation response"
+          content:
+            application/json:
+              example:
+                message: "Case created successfully"
+                case:
+                  id: 1
+                  name: "New Case"
+                  image: "new_case.jpg"
+                  price: 15.0
+                  items: []
+                  odds: []
+                  history: []
+    put:
+      summary: "Update Case"
+      description: "Updates the case with the specified ID."
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewCase"
+      responses:
+        200:
+          description: "Successful PUT case update response"
+          content:
+            application/json:
+              example:
+                message: "Case updated successfully"
+    delete:
+      summary: "Delete Case"
+      description: "Deletes the case with the specified ID."
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: "Successful DELETE case response"
+          content:
+            application/json:
+              example:
+                message: "Case deleted successfully"
+
+  /api/case/{id}:
+    get:
+      summary: "Get Case by ID"
+      description: "Returns the case with the specified ID."
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: "Successful GET case by ID response"
+          content:
+            application/json:
+              $ref: "#/components/schemas/Case"
+        404:
+          description: "Failed GET case by ID response"
+          content:
+            application/json:
+              example:
+                error: "Case not found"
+                message: "The requested case ID does not exist"
+
+  /api/item:
+    get:
+      summary: "Get All Items"
+      description: "Returns all items from the database. Optional query parameters from and to for filtering."
+      parameters:
+        - in: query
+          name: from
+          schema:
+            type: integer
+        - in: query
+          name: to
+          schema:
+            type: integer
+      responses:
+        200:
+          description: "Successful GET items response"
+          content:
+            application/json:
+              example:
+                - id: 1
+                  name: "Item 1"
+                  rarity: 2
+                  price: 5.0
+                  imageURL: "item1.jpg"
+                  caseId: 1
+                  case: null
+                  history: []
+                  odds: []
+    post:
+      summary: "Create New Item"
+      description: "Creates a new item (requires admin role)."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewItem"
+      responses:
+        200:
+          description: "Successful POST item creation response"
+          content:
+            application/json:
+              example:
+                message: "Item created successfully"
+                item:
+                  id: 1
+                  name: "New Item"
+                  rarity: 3
+                  price: 8.0
+                  imageURL: "new_item.jpg"
+                  caseId: null
+                  case: null
+                  history: []
+                  odds: []
+    put:
+      summary: "Update Item"
+      description: "Updates the item with the specified ID."
+      parameters:
+        - in: query
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewItem"
+      responses:
+        200:
+          description: "Successful PUT item update response"
+          content:
+            application/json:
+              example:
+                message: "Item updated successfully"
+    delete:
+      summary: "Delete Item"
+      description: "Deletes the item with the specified ID."
+      parameters:
+        - in: query
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: "Successful DELETE item response"
+          content:
+            application/json:
+              example:
+                message: "Item deleted successfully"
+
+  /api/items:
+    post:
+      summary: "Create Bulk Items"
+      description: "Creates bulk items."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/NewItem"
+      responses:
+        200:
+          description: "Successful bulk item creation response"
+          content:
+            application/json:
+              example:
+                message: "Bulk items created successfully"
+                items:
+                  - id: 1
+                    name: "Bulk Item 1"
+                    rarity: 2
+                    price: 5.0
+                    imageURL: "bulk_item1.jpg"
+                    caseId: null
+                    case: null
+                    history: []
+                    odds: []
+
+  /api/open:
+    post:
+      summary: "Open Case"
+      description: "Opens a case and returns an item based on the odds."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                caseId:
+                  type: integer
+      responses:
+        200:
+          description: "Successful case opening response"
+          content:
+            application/json:
+              example:
+                item:
+                  id: 1
+                  name: "Opened Item"
+                  rarity: 2
+                  price: 5.0
+                  imageURL: "opened_item.jpg"
+                  caseId: null
+                  case: null
+                  history: []
+                  odds: []
+        404:
+          description: "Failed case opening response"
+          content:
+            application/json:
+              example:
+                error: "Case not found"
+                message: "The requested case ID does not exist"
+
+  /api/rmrf:
+    delete:
+      summary: "Delete Everything"
+      description: "Deletes everything from the database (requires admin role)."
+      responses:
+        200:
+          description: "Successful database deletion response"
+          content:
+            application/json:
+              example:
+                message: "Database cleared successfully"
+
+  /api/user:
+    get:
+      summary: "Get User"
+      description: "Returns the user from the session."
+      responses:
+        200:
+          description: "Successful GET user response"
+          content:
+            application/json:
+              example:
+                user:
+                  id: 1
+                  username: "example_user"
+                  email: "example_user@example.com"
+                  image: "https://avatars.githubusercontent.com/u/79216061?v=4"
+                  balance: 123
+                  role: 0
+
+components:
+  schemas:
+    Case:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        image:
+          type: string
+        price:
+          type: number
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Item"
+        odds:
+          type: array
+          items:
+            $ref: "#/components/schemas/Odds"
+        history:
+          type: array
+          items:
+            $ref: "#/components/schemas/History"
+
+    NewCase:
+      type: object
+      properties:
+        name:
+          type: string
+        image:
+          type: string
+        price:
+          type: number
+        itemIds:
+          type: array
+          items:
+            type: integer
+        odds:
+          type: array
+          items:
+            type: integer
+
+    Item:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        rarity:
+          type: integer
+        price:
+          type: number
+        imageURL:
+          type: string
+        caseId:
+          type: integer
+        case:
+          $ref: "#/components/schemas/Case"
+        history:
+          type: array
+          items:
+            $ref: "#/components/schemas/History"
+        odds:
+          type: array
+          items:
+            $ref: "#/components/schemas/Odds"
+
+    NewItem:
+      type: object
+      properties:
+        name:
+          type: string
+        rarity:
+          type: integer
+        price:
+          type: number
+        imageURL:
+          type: string
+
+    Odds:
+      type: object
+      properties:
+        id:
+          type: integer
+        caseId:
+          type: integer
+        itemId:
+          type: integer
+        case:
+          $ref: "#/components/schemas/Case"
+        item:
+          $ref: "#/components/schemas/Item"
+        Odds:
+          type: number
+
+    History:
+      type: object
+      properties:
+        id:
+          type: integer
+        caseId:
+          type: integer
+        itemId:
+          type: integer
+        userId:
+          type: string
+        user:
+          $ref: "#/components/schemas/User"
+        case:
+          $ref: "#/components/schemas/Case"
+        item:
+          $ref: "#/components/schemas/Item"
