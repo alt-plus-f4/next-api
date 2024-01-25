@@ -122,7 +122,12 @@ function CreateCase() {
             });
 
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                toast({
+                    variant: 'destructive',
+                    title: "ERROR!",
+                    description: "There was an error creating the case.",
+                });
+                return;
             }
 
             const data = await response.json();

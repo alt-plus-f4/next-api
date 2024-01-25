@@ -62,11 +62,10 @@ model Case {
   name    String
   image   String
   price   Float
-  items   Item[]
+  items   Item[]    @relation("CaseToItem")
   odds    Odds[]
   history History[]
 }
-
 model Odds {
   id     Int   @id @default(autoincrement())
   caseId Int
@@ -82,8 +81,7 @@ model Item {
   rarity   Int
   price    Float
   imageURL String
-  caseId   Int?
-  case     Case?     @relation(fields: [caseId], references: [id])
+  cases    Case[]    @relation("CaseToItem")
   history  History[]
   odds     Odds[]
 }

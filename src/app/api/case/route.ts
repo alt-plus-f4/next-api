@@ -23,16 +23,18 @@ export async function POST(req : NextRequest) {
     if (Object.keys(data).length === 0) 
         return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
 
-        const { name, image, price, itemIds, odds } = data;
+    const { name, image, price, itemIds, odds } = data;
 
     if (!name || !image || !price || !itemIds || !odds)
         return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     
     const newCase = await db.case.create({
         data: {
-            name, image, price,
+            name,
+            image,
+            price,
             items: {
-                connect: itemIds.map((id: string, index: number) => ({ id })),
+                connect: itemIds.map((id: any) => ({ id })),
             },
             odds: {
                 create: itemIds.map((id: string, index: number) => ({

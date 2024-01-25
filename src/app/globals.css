@@ -198,8 +198,8 @@ input[type="radio"]:checked {transition: linear 0.2s;background: #bbbbbb76;}
   position: absolute;
   left: 0;
   width: 60000px;
-  transform: translateX(0px);
-  transition: all 4s cubic-bezier(0.49, 0.23, 0.4, 0.98);
+  transform: translateX(3000px);
+  transition: all 5s cubic-bezier(0.49, 0.23, 0.4, 0.98);
   transition-delay: 1s;
 }
 .case-item-opening{
@@ -237,6 +237,7 @@ input[type="radio"]:checked {transition: linear 0.2s;background: #bbbbbb76;}
   align-items: center;
   margin-bottom: 50px;
   position: relative;
+  overflow: hidden;
 }
 .case-page-items.rotating::after {
   content: "";
