@@ -13,6 +13,7 @@ function CreateItem() {
 	const { toast } = useToast();
 
 	const handleRarityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setImageURL('');
 		setRarity(Number(event.target.value));
 	};
 
@@ -55,7 +56,7 @@ function CreateItem() {
 	};
 
 	return (
-		<div className='case-create'>
+		<div className='case-create justify-center'>
 			<form onSubmit={handleSubmit}>
 				<label>
 					Name
@@ -78,35 +79,36 @@ function CreateItem() {
 				</label> 
 				<div className='flex flex-row case-create-items-images'>
 				{rarity === 1 && (
-					<>
-							<button className='item-create-image' onClick={() => setImageURL('/blue-item.webp')}>
-							<Image src={'/blue-item.webp'} alt='Blue Item 1' width={imageURL === '/blue-item.webp' ? 500 : 300} height={300}/>
-							</button>
-							<button className='item-create-image' onClick={() => setImageURL('/blue-item-2.webp')}>
-							<Image src={'/blue-item-2.webp'} alt="Blue Item 2" width={imageURL === '/blue-item-2.webp' ? 500 : 300} height={300}/>
-							</button>
-						</>
-						)}
-						{rarity === 2 && (
-						<>
-							<button className='item-create-image' onClick={() => setImageURL('/dlore.webp')}>
-							<Image src={'/dlore.webp'} alt="Image 3" width={imageURL === '/dlore.webp' ? 500 : 300} height={300}/>
-							</button>
-							<button className='item-create-image' onClick={() => setImageURL('/wildlotus.webp')}>
-							<Image src={'/wildlotus.webp'} alt="Image 4" width={imageURL === '/wildlotus.webp' ? 500 : 300} height={300}/>
-							</button>
-						</>
-						)}
-						{rarity === 3 && (
-						<>
-							<button className='item-create-image' onClick={() => setImageURL('/bfklore.webp')}>
-							<Image src={'/bfklore.webp'} alt="BFK lore" width={imageURL === '/bfklore.webp' ? 500 : 300} height={300} />
-							</button>
-							<button className='item-create-image' onClick={() => setImageURL('/karalore.webp')}>
-							<Image src={'/karalore.webp'} alt="KARA lore" width={imageURL === '/karalore.webp' ? 500 : 300} height={300} />
-							</button>
-						</>
-						)}
+				<>
+					<button type="button" className={`item-create-image ${imageURL === '/blue-item.webp' ? 'selected' : ''}`} onClick={() => setImageURL('/blue-item.webp')}>
+					<Image src={'/blue-item.webp'} alt='Blue Item 1' width={imageURL === '/blue-item.webp' ? 330 : 300} height={300}/>
+					</button>
+					<button type="button" className={`item-create-image ${imageURL === '/blue-item-2.webp' ? 'selected' : ''}`} onClick={() => setImageURL('/blue-item-2.webp')}>
+					<Image src={'/blue-item-2.webp'} alt="Blue Item 2" width={imageURL === '/blue-item-2.webp' ? 330 : 300} height={300}/>
+					</button>
+				</>
+				)}
+				{rarity === 2 && (
+				<>
+					<button type="button" className={`item-create-image ${imageURL === '/dlore.webp' ? 'selected' : ''}`} onClick={() => setImageURL('/dlore.webp')}>
+					<Image src={'/dlore.webp'} alt="Image 3" width={imageURL === '/dlore.webp' ? 330 : 300} height={300}/>
+					</button>
+					<button type="button" className={`item-create-image ${imageURL === '/wildlotus.webp' ? 'selected' : ''}`} onClick={() => setImageURL('/wildlotus.webp')}>
+					<Image src={'/wildlotus.webp'} alt="Image 4" width={imageURL === '/wildlotus.webp' ? 330 : 300} height={300}/>
+					</button>
+				</>
+				)}
+				{rarity === 3 && (
+				<>
+					<button type="button" className={`item-create-image ${imageURL === '/bfklore.webp' ? 'selected' : ''}`} onClick={() => setImageURL('/bfklore.webp')}>
+					<Image src={'/bfklore.webp'} alt="BFK lore" width={imageURL === '/bfklore.webp' ? 330 : 300} height={300} />
+					</button>
+					<button type="button" className={`item-create-image ${imageURL === '/karalore.webp' ? 'selected' : ''}`} onClick={() => setImageURL('/karalore.webp')}>
+					<Image src={'/karalore.webp'} alt="KARA lore" width={imageURL === '/karalore.webp' ? 330 : 300} height={300} />
+					</button>
+				</>
+				)}
+
 				</div>
 				<Button variant={'default'} type="submit">Create Item</Button>
 			</form>

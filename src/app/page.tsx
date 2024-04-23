@@ -1,11 +1,16 @@
+'use client'
+
 import React from 'react';
 import Case from '../components/Case';
 import { Button } from '@/components/Button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
 interface CaseType {
 	id: number;
 	name: string;
+	image: string;
 	items: {
 		name: string;
 		image: string;
@@ -14,64 +19,38 @@ interface CaseType {
 	price: number;
 }
 
-const cases: CaseType[] = [
-	{
-		id: 1,
-		name: 'One Case',
-		items: [
-			{ name: 'Item 1', image: '/onecase.webp', price: 1.00 },
-			{ name: 'Item 2', image: '/onecase.webp', price: 5.00 },
-		],
-		price: 2.00
-	},
-	{
-		id: 2,
-		name: 'Two Case',
-		items: [
-			{ name: 'Item 1', image: '/item1.png' , price: 5.00 },
-			{ name: 'Item 2', image: '/item2.png' , price: 10.00 },
-		],
-		price: 7.00
-	},
-	{
-		id: 3,
-		name: 'Three Case',
-		items: [
-			{ name: 'Item 1', image: '/item1.png' , price: 5.00 },
-			{ name: 'Item 2', image: '/item2.png' , price: 10.00 },
-		],
-		price: 5.00
-	},
-	{
-		id: 4,
-		name: 'Four Case',
-		items: [
-			{ name: 'Item 1', image: '/item1.png' , price: 5.00 },
-			{ name: 'Item 2', image: '/item2.png' , price: 10.00 },
-		],
-		price: 5.00
-	},
-	{
-		id: 4,
-		name: 'Four Case',
-		items: [
-			{ name: 'Item 1', image: '/item1.png' , price: 5.00 },
-			{ name: 'Item 2', image: '/item2.png' , price: 10.00 },
-		],
-		price: 5.00
-	},
-	{
-		id: 4,
-		name: 'Four Case',
-		items: [
-			{ name: 'Item 1', image: '/item1.png' , price: 5.00 },
-			{ name: 'Item 2', image: '/item2.png' , price: 10.00 },
-		],
-		price: 5.00
-	},
-];
-
 const Home: React.FC = () => {
+	const [recommendedCases, setRecommendedCases] = useState<CaseType[]>([]);
+    const [christmasCases, setChristmasCases] = useState<CaseType[]>([]);
+
+	useEffect(() => {
+		fetch('/api/case')
+			.then(response => {
+				if (!response.ok) {
+					throw new Error('Network response was not ok');
+				}
+				return response.json();
+			})
+			.then(data => {
+				const cases = data.cases;
+
+				if (!Array.isArray(cases)) {
+					throw new Error('Data is not iterable');
+				}
+				let casesArray = [...cases];
+				if (cases.length > 0) {
+					while (casesArray.length < 10) {
+						casesArray = [...casesArray, ...cases];
+					}
+				}
+				setRecommendedCases(casesArray.slice(0, 5));
+				setChristmasCases(casesArray.slice(5, 10));
+			})
+			.catch(error => {
+				console.error('There has been a problem with your fetch operation:', error);
+			});
+	}, []);
+
 	return (
 	<>
 		<div className='banner'>
@@ -87,9 +66,17 @@ const Home: React.FC = () => {
 					<AccordionTrigger className='accordion-title'>Recommended cases</AccordionTrigger>
 					<AccordionContent>
 						<div className={"flex justify-around flex-wrap lg:flex-nowrap"}>
-							{cases.map((c, index) => (
-								<Case key={index} caseName={c.name} items={c.items} price={c.price} id={c.id} />
-							))}
+						{recommendedCases.length > 0 ? (recommendedCases.map((c, index) => (
+							<Case key={index} caseName={c.name} items={c.items} image={c.image} price={c.price} id={c.id} />))
+						) : 
+							<>
+							<Skeleton className="skeleton-image" />
+							<Skeleton className="skeleton-image" />
+							<Skeleton className="skeleton-image" />
+							<Skeleton className="skeleton-image" />
+							<Skeleton className="skeleton-image" />
+							</>
+						}
 						</div>  
 					</AccordionContent>
 				</AccordionItem>
@@ -97,9 +84,17 @@ const Home: React.FC = () => {
 					<AccordionTrigger className='accordion-title'>Christmas cases</AccordionTrigger>
 					<AccordionContent>
 						<div className={"flex justify-around flex-wrap lg:flex-nowrap"}>
-								{cases.map((c, index) => (
-									<Case key={index} caseName={c.name} items={c.items} price={c.price} id={c.id} />
-								))}
+						{christmasCases.length > 0 ? 
+							christmasCases.map((c, index) => <Case key={index} image={c.image} caseName={c.name} items={c.items} price={c.price} id={c.id} />) 
+						: 
+							<>
+							<Skeleton className="skeleton-image" />
+							<Skeleton className="skeleton-image" />
+							<Skeleton className="skeleton-image" />
+							<Skeleton className="skeleton-image" />
+							<Skeleton className="skeleton-image" />
+							</>
+						}
 						</div> 
 					</AccordionContent>
 				</AccordionItem>

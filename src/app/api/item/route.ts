@@ -1,7 +1,6 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db'
-import { getAuthSession } from '@/lib/auth';
+import { checkSessionAndRole } from '@/lib/role-check';
 
 export async function GET(req : NextRequest) {
     const from = Number(req.nextUrl.searchParams.get('from'));
@@ -15,7 +14,7 @@ export async function GET(req : NextRequest) {
     try {
         if (from === 0 && to === 0) {
             items = await db.item.findMany({
-                select: {name: true, rarity: true, price: true, imageURL: true},
+                select: {id: true, name: true, rarity: true, price: true, imageURL: true},
             });
         } else {
             items = await db.item.findMany({
@@ -39,19 +38,9 @@ export async function GET(req : NextRequest) {
 }
 
 export async function POST(req : NextRequest) {
-	const session = await getAuthSession();
+	const check = await checkSessionAndRole();
+    if (check) return NextResponse.json({ error: check.error }, { status: check.status });
 
-	if (!session)
-		return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
-    const user = await db.user.findUnique({
-        where: { email: session?.user?.email || ''},
-        select: { role: true },
-    })
-
-    if(user?.role != 1)
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    
     const data = await req.json();
 
     if (Object.keys(data).length === 0) 
@@ -63,14 +52,16 @@ export async function POST(req : NextRequest) {
         return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
 
     const newItem = await db.item.create({
-        data: { name, rarity, price, imageURL, caseId: 1 },
+        data: { name, rarity, price, imageURL },
     })
 
     return NextResponse.json({ item: newItem }, { status: 201 })
-
 }
 
 export async function PUT(req : NextRequest) {
+    const check = await checkSessionAndRole();
+    if (check) return NextResponse.json({ error: check.error }, { status: check.status });
+    
     const id = Number(req.nextUrl.searchParams.get('id'));
 
     if (isNaN(id)) {
@@ -96,6 +87,9 @@ export async function PUT(req : NextRequest) {
 }
 
 export async function DELETE(req : NextRequest) {
+    const check = await checkSessionAndRole();
+    if (check) return NextResponse.json({ error: check.error }, { status: check.status });
+    
     const id = Number(req.nextUrl.searchParams.get('id'));
 
     if (isNaN(id)) {
